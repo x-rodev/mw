@@ -503,7 +503,7 @@
                 suffix = properties.suffix or properties.Suffix or "tech";
                 name = properties.name or properties.Name or "nebula";
                 game_name = properties.gameInfo or properties.game_info or properties.GameInfo or "Milenium for Counter-Strike: Global Offensive";
-                size = properties.size or properties.Size or (is_mobile and dim2(0, 350, 0, 500) or dim2(0, 700, 0, 565));
+                size = properties.size or properties.Size or (is_mobile and dim2(0, math.min(450, camera.ViewportSize.X - 20), 0, 500) or dim2(0, 700, 0, 565));
                 selected_tab;
                 items = {};
 
@@ -728,19 +728,63 @@
                     BackgroundColor3 = rgb(255, 255, 255)
                 }); library:apply_theme(items[ "other_info" ], "accent", "TextColor3");
                 
-                -- Mobile toggle button
+                -- Player info (profile picture and username)
+                items[ "player_info" ] = library:create( "Frame" , {
+                    Parent = items[ "side_frame" ];
+                    Name = "\0";
+                    BackgroundTransparency = 1;
+                    Position = dim2(0, 10, 1, -45);
+                    Size = dim2(1, -20, 0, 35);
+                    BorderSizePixel = 0;
+                    AnchorPoint = vec2(0, 1);
+                });
+                
+                items[ "player_avatar" ] = library:create( "ImageLabel" , {
+                    Parent = items[ "player_info" ];
+                    Name = "\0";
+                    BackgroundColor3 = rgb(25, 25, 29);
+                    Size = dim2(0, 32, 0, 32);
+                    Position = dim2(0, 0, 0, 0);
+                    BorderSizePixel = 0;
+                    Image = players:GetUserThumbnailAsync(lp.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size48x48);
+                });
+                
+                library:create( "UICorner" , {
+                    Parent = items[ "player_avatar" ];
+                    CornerRadius = dim(0, 999);
+                });
+                
+                items[ "player_name" ] = library:create( "TextLabel" , {
+                    FontFace = fonts.font;
+                    TextColor3 = rgb(245, 245, 245);
+                    BorderColor3 = rgb(0, 0, 0);
+                    Text = lp.Name;
+                    Parent = items[ "player_info" ];
+                    Name = "\0";
+                    Size = dim2(1, -40, 0, 32);
+                    Position = dim2(0, 40, 0, 0);
+                    BackgroundTransparency = 1;
+                    TextXAlignment = Enum.TextXAlignment.Left;
+                    BorderSizePixel = 0;
+                    TextSize = 14;
+                    TextTruncate = Enum.TextTruncate.AtEnd;
+                    BackgroundColor3 = rgb(255, 255, 255);
+                });
+                
+                -- Mobile toggle button (close only, always on left)
                 if is_mobile then
                     items[ "mobile_toggle" ] = library:create( "TextButton" , {
                         Parent = library[ "items" ];
                         Name = "\0";
-                        Size = dim2(0, 40, 0, 40);
-                        Position = dim2(0, 10, 0.5, -20);
+                        Size = dim2(0, 45, 0, 45);
+                        Position = dim2(0, 10, 0.5, -22);
                         BorderColor3 = rgb(0, 0, 0);
                         BorderSizePixel = 0;
                         BackgroundColor3 = rgb(25, 25, 29);
                         Text = "";
                         AutoButtonColor = false;
                         ZIndex = 100;
+                        Visible = false;
                     });
                     
                     library:create( "UICorner" , {
@@ -757,8 +801,8 @@
                     items[ "mobile_toggle_icon" ] = library:create( "ImageLabel" , {
                         Parent = items[ "mobile_toggle" ];
                         Name = "\0";
-                        Size = dim2(0, 24, 0, 24);
-                        Position = dim2(0.5, -12, 0.5, -12);
+                        Size = dim2(0, 28, 0, 28);
+                        Position = dim2(0.5, -14, 0.5, -14);
                         BackgroundTransparency = 1;
                         Image = "rbxassetid://6031094678";
                         ImageColor3 = themes.preset.accent;
@@ -766,8 +810,7 @@
                     }); library:apply_theme(items[ "mobile_toggle_icon" ], "accent", "ImageColor3");
                     
                     items[ "mobile_toggle" ].MouseButton1Click:Connect(function()
-                        local is_visible = library[ "items" ].Enabled
-                        cfg.toggle_menu(not is_visible)
+                        cfg.toggle_menu(false)
                     end)
                 end
             end 
@@ -789,7 +832,7 @@
                 
                 items[ "main" ].Visible = bool
                 if is_mobile and items[ "mobile_toggle" ] then
-                    items[ "mobile_toggle" ].Visible = true
+                    items[ "mobile_toggle" ].Visible = not bool
                 end
             end 
                 
@@ -1382,65 +1425,8 @@
                     SortOrder = Enum.SortOrder.LayoutOrder
                 });
                 
-                -- Toggle
-                    if cfg.type == "checkbox" then 
-                        items[ "toggle_button" ] = library:create( "TextButton" , {
-                            FontFace = fonts.small;
-                            TextColor3 = rgb(0, 0, 0);
-                            BorderColor3 = rgb(0, 0, 0);
-                            Text = "";
-                            LayoutOrder = 2;
-                            AutoButtonColor = false;
-                            AnchorPoint = vec2(1, 0);
-                            Parent = items[ "right_components" ];
-                            Name = "\0";
-                            Position = dim2(1, 0, 0, 0);
-                            Size = dim2(0, 16, 0, 16);
-                            BorderSizePixel = 0;
-                            TextSize = 14;
-                            BackgroundColor3 = rgb(67, 67, 68)
-                        }); library:apply_theme(items[ "toggle_button" ], "accent", "BackgroundColor3");
-                        
-                        library:create( "UICorner" , {
-                            Parent = items[ "toggle_button" ];
-                            CornerRadius = dim(0, 4)
-                        });
-                        
-                        items[ "outline" ] = library:create( "Frame" , {
-                            Parent = items[ "toggle_button" ];
-                            Size = dim2(1, -2, 1, -2);
-                            Name = "\0";
-                            BorderMode = Enum.BorderMode.Inset;
-                            BorderColor3 = rgb(0, 0, 0);
-                            Position = dim2(0, 1, 0, 1);
-                            BorderSizePixel = 0;
-                            BackgroundColor3 = rgb(22, 22, 24)
-                        }); library:apply_theme(items[ "outline" ], "accent", "BackgroundColor3");
-                        
-                        items[ "tick" ] = library:create( "ImageLabel" , {
-                            ImageTransparency = 1;
-                            BorderColor3 = rgb(0, 0, 0);
-                            Image = "rbxassetid://111862698467575";
-                            BackgroundTransparency = 1;
-                            Position = dim2(0, -1, 0, 0);
-                            Parent = items[ "outline" ];
-                            Size = dim2(1, 2, 1, 2);
-                            BorderSizePixel = 0;
-                            BackgroundColor3 = rgb(255, 255, 255);
-                            ZIndex = 1;
-                        });
-
-                        library:create( "UICorner" , {
-                            Parent = items[ "outline" ];
-                            CornerRadius = dim(0, 4)
-                        });
-                        
-                        library:create( "UIGradient" , {
-                            Enabled = false;
-                            Parent = items[ "outline" ];
-                            Color = rgbseq{rgbkey(0, rgb(211, 211, 211)), rgbkey(1, rgb(211, 211, 211))}
-                        });  
-                    else 
+                -- Toggle (all types use switch style now)
+                    if true then 
                         items[ "toggle_button" ] = library:create( "TextButton" , {
                             FontFace = fonts.font;
                             TextColor3 = rgb(0, 0, 0);
@@ -1502,15 +1488,9 @@
             end;
             
             function cfg.set(bool)
-                if cfg.type == "checkbox" then 
-                    library:tween(items[ "tick" ], {Rotation = bool and 0 or 45, ImageTransparency = bool and 0 or 1})
-                    library:tween(items[ "toggle_button" ], {BackgroundColor3 = bool and themes.preset.accent or rgb(67, 67, 68)})
-                    library:tween(items[ "outline" ], {BackgroundColor3 = bool and themes.preset.accent or rgb(22, 22, 24)})
-                else
-                    library:tween(items[ "toggle_button" ], {BackgroundColor3 = bool and themes.preset.accent or rgb(58, 58, 62)}, Enum.EasingStyle.Quad)
-                    library:tween(items[ "inline" ], {BackgroundColor3 = bool and themes.preset.accent or rgb(50, 50, 50)}, Enum.EasingStyle.Quad)
-                    library:tween(items[ "circle" ], {BackgroundColor3 = bool and rgb(255, 255, 255) or rgb(86, 86, 88), Position = bool and dim2(1, -14, 0, 2) or dim2(0, 2, 0, 2)}, Enum.EasingStyle.Quad)
-                end
+                library:tween(items[ "toggle_button" ], {BackgroundColor3 = bool and themes.preset.accent or rgb(58, 58, 62)}, Enum.EasingStyle.Quad)
+                library:tween(items[ "inline" ], {BackgroundColor3 = bool and themes.preset.accent or rgb(50, 50, 50)}, Enum.EasingStyle.Quad)
+                library:tween(items[ "circle" ], {BackgroundColor3 = bool and rgb(255, 255, 255) or rgb(86, 86, 88), Position = bool and dim2(1, -14, 0, 2) or dim2(0, 2, 0, 2)}, Enum.EasingStyle.Quad)
 
                 cfg.callback(bool)
 
@@ -1882,7 +1862,7 @@
                     
                     items[ "dropdown" ] = library:create( "TextButton" , {
                         FontFace = fonts.small;
-                        TextColor3 = rgb(0, 0, 0);
+                        TextColor3 = rgb(245, 245, 245);
                         BorderColor3 = rgb(0, 0, 0);
                         Text = "";
                         AutoButtonColor = false;
@@ -1890,7 +1870,7 @@
                         Parent = items[ "right_components" ];
                         Name = "\0";
                         Position = dim2(1, 0, 0, 0);
-                        Size = dim2(0, cfg.width, 0, 16);
+                        Size = dim2(0, cfg.width, 0, 30);
                         BorderSizePixel = 0;
                         TextSize = 14;
                         BackgroundColor3 = rgb(33, 33, 35)
@@ -1898,45 +1878,53 @@
                     
                     library:create( "UICorner" , {
                         Parent = items[ "dropdown" ];
-                        CornerRadius = dim(0, 4)
+                        CornerRadius = dim(0, 6)
                     });
                     
                     items[ "sub_text" ] = library:create( "TextLabel" , {
-                        FontFace = fonts.small;
-                        TextColor3 = rgb(86, 86, 87);
+                        FontFace = fonts.font;
+                        TextColor3 = rgb(245, 245, 245);
                         BorderColor3 = rgb(0, 0, 0);
-                        Text = "awdawdawdawdawdawdawdaw";
+                        Text = "Select...";
                         Parent = items[ "dropdown" ];
                         Name = "\0";
-                        Size = dim2(1, -12, 0, 0);
+                        Size = dim2(1, -35, 1, 0);
                         BorderSizePixel = 0;
                         BackgroundTransparency = 1;
                         TextXAlignment = Enum.TextXAlignment.Left;
                         TextTruncate = Enum.TextTruncate.AtEnd;
-                        AutomaticSize = Enum.AutomaticSize.Y;
                         TextSize = 14;
                         BackgroundColor3 = rgb(255, 255, 255)
                     });
                     
                     library:create( "UIPadding" , {
                         Parent = items[ "sub_text" ];
-                        PaddingTop = dim(0, 1);
-                        PaddingRight = dim(0, 5);
-                        PaddingLeft = dim(0, 5)
+                        PaddingTop = dim(0, 0);
+                        PaddingRight = dim(0, 8);
+                        PaddingLeft = dim(0, 10)
+                    });
+                    
+                    items[ "arrow_holder" ] = library:create( "Frame" , {
+                        Parent = items[ "dropdown" ];
+                        AnchorPoint = vec2(1, 0.5);
+                        Position = dim2(1, -8, 0.5, 0);
+                        Size = dim2(0, 12, 0, 12);
+                        BackgroundTransparency = 1;
+                        BorderSizePixel = 0;
                     });
                     
                     items[ "indicator" ] = library:create( "ImageLabel" , {
-                        ImageColor3 = rgb(86, 86, 87);
+                        ImageColor3 = rgb(145, 145, 145);
                         BorderColor3 = rgb(0, 0, 0);
-                        Parent = items[ "dropdown" ];
-                        AnchorPoint = vec2(1, 0.5);
+                        Parent = items[ "arrow_holder" ];
                         Image = "rbxassetid://101025591575185";
                         BackgroundTransparency = 1;
-                        Position = dim2(1, -5, 0.5, 0);
+                        Position = dim2(0, 0, 0, 0);
                         Name = "\0";
-                        Size = dim2(0, 12, 0, 12);
+                        Size = dim2(1, 0, 1, 0);
                         BorderSizePixel = 0;
-                        BackgroundColor3 = rgb(255, 255, 255)
+                        BackgroundColor3 = rgb(255, 255, 255);
+                        Rotation = 0;
                     });
                 -- 
 
@@ -2014,6 +2002,7 @@
             function cfg.set_visible(bool)
                 local a = bool and cfg.y_size or 0
                 library:tween(items[ "dropdown_holder" ], {Size = dim_offset(items[ "dropdown" ].AbsoluteSize.X, a)})
+                library:tween(items[ "indicator" ], {Rotation = bool and 180 or 0}, Enum.EasingStyle.Quad, 0.2)
 
                 items[ "dropdown_holder" ].Position = dim2(0, items[ "dropdown" ].AbsolutePosition.X, 0, items[ "dropdown" ].AbsolutePosition.Y + 80)
                 if not (self.sanity and library.current_open == self) then 
