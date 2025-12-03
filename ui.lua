@@ -1,11 +1,3 @@
---[[
-
-    Milenium Library
-    -> Made by @finobe 
-    -> Kind of got bored idk what to do with life
-    -> Idk who or why this got leaked, ui was VERY popular and high in demand with customers
-]]
-
 -- Variables 
     local uis = game:GetService("UserInputService") 
     local players = game:GetService("Players") 
