@@ -842,7 +842,7 @@
         function library:tab(properties)
             local cfg = {
                 name = properties.name or properties.Name or "visuals"; 
-                icon = properties.icon or properties.Icon or "http://www.roblox.com/asset/?id=6034767608";
+                icon = properties.icon or properties.Icon or "rbxassetid://6034767608";
                 
                 items = {};
             } 
@@ -898,7 +898,7 @@
                         BorderColor3 = rgb(0, 0, 0);
                         Parent = items[ "button" ];
                         AnchorPoint = vec2(0, 0.5);
-                        Image = "http://www.roblox.com/asset/?id=6034767608";
+                        Image = "rbxassetid://6034767608";
                         BackgroundTransparency = 1;
                         Position = dim2(0, 10, 0.5, 0);
                         Name = "\0";
@@ -1090,7 +1090,7 @@
                 side = properties.side or properties.Side or "left";
                 default = properties.default or properties.Default or false;
                 size = properties.size or properties.Size or self.size or 0.5; 
-                icon = properties.icon or properties.Icon or "http://www.roblox.com/asset/?id=6022668898";
+                icon = properties.icon or properties.Icon or "rbxassetid://6022668898";
                 fading_toggle = properties.fading or properties.Fading or false;
                 items = {};
             };
