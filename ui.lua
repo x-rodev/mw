@@ -499,7 +499,7 @@
                 suffix = properties.suffix or properties.Suffix or "tech";
                 name = properties.name or properties.Name or "nebula";
                 game_name = properties.gameInfo or properties.game_info or properties.GameInfo or "Milenium for Counter-Strike: Global Offensive";
-                size = properties.size or properties.Size or (is_mobile and dim2(0, math.min(camera.ViewportSize.X - 20, 600), 0, 500) or dim2(0, 900, 0, 600));
+                size = properties.size or properties.Size or (is_mobile and dim2(0, math.min(camera.ViewportSize.X - 20, 400), 0, math.min(camera.ViewportSize.Y - 40, 450)) or dim2(0, 900, 0, 600));
                 selected_tab;
                 items = {};
 
@@ -1193,11 +1193,7 @@
                     CornerRadius = dim(0, 7)
                 });
                 
-                items[ "scrolling" ] = library:create( "ScrollingFrame" , {
-                    ScrollBarImageColor3 = rgb(44, 44, 46);
-                    Active = true;
-                    AutomaticCanvasSize = Enum.AutomaticSize.Y;
-                    ScrollBarThickness = 2;
+                items[ "scrolling" ] = library:create( "Frame" , {
                     Parent = items[ "inline" ];
                     Name = "\0";
                     Size = dim2(1, 0, 1, -40);
@@ -1206,7 +1202,7 @@
                     BackgroundColor3 = rgb(255, 255, 255);
                     BorderColor3 = rgb(0, 0, 0);
                     BorderSizePixel = 0;
-                    CanvasSize = dim2(0, 0, 0, 0)
+                    ClipsDescendants = true
                 });
                 
                 items[ "elements" ] = library:create( "Frame" , {
@@ -1836,7 +1832,7 @@
                 name = options.name or nil;
                 info = options.info or nil;
                 flag = options.flag or library:next_flag();
-                options = options.items or {""};
+                options_list = options.options or options.items or {""};
                 callback = options.callback or function() end;
                 multi = options.multi or false;
                 scrolling = options.scrolling or false;
@@ -1853,7 +1849,7 @@
                 seperator = options.seperator or options.Seperator or true;
             }   
 
-            cfg.default = options.default or (cfg.multi and {cfg.items[1]}) or cfg.items[1] or "None"
+            cfg.default = options.default or (cfg.multi and {cfg.options_list[1]}) or cfg.options_list[1] or "None"
             flags[cfg.flag] = cfg.default
 
             local items = cfg.items; do 
@@ -2105,6 +2101,7 @@
             
             function cfg.refresh_options(list) 
                 cfg.y_size = 0
+                cfg.options_list = list
 
                 for _, option in cfg.option_instances do 
                     option:Destroy() 
@@ -2159,7 +2156,7 @@
             flags[cfg.flag] = {} 
             config_flags[cfg.flag] = cfg.set
             
-            cfg.refresh_options(cfg.options)
+            cfg.refresh_options(cfg.options_list)
             cfg.set(cfg.default)
                 
             return setmetatable(cfg, library)
@@ -2272,7 +2269,7 @@
                 name = options.name or "Color", 
                 flag = options.flag or library:next_flag(),
 
-                color = options.color or color(1, 1, 1), -- Default to white color if not provided
+                color = options.default or options.color or rgb(155, 150, 219), -- Default to accent color
                 alpha = options.alpha and 1 - options.alpha or 0,
                 
                 open = false, 
@@ -2382,17 +2379,15 @@
                         CornerRadius = dim(0, 6)
                     });
                     
-                    items[ "saturation_holder" ] = library:create( "Frame" , {
-                        Parent = items[ "colorpicker_components" ];
-                        Name = "\0";
-                        Position = dim2(0, 7, 0, 7);
-                        BorderColor3 = rgb(0, 0, 0);
-                        Size = dim2(1, -14, 1, -80);
-                        BorderSizePixel = 0;
-                        BackgroundColor3 = rgb(255, 39, 39)
-                    });
-                    
-                    items[ "sat" ] = library:create( "TextButton" , {
+                items[ "saturation_holder" ] = library:create( "Frame" , {
+                    Parent = items[ "colorpicker_components" ];
+                    Name = "\0";
+                    Position = dim2(0, 7, 0, 7);
+                    BorderColor3 = rgb(0, 0, 0);
+                    Size = dim2(1, -14, 1, -80);
+                    BorderSizePixel = 0;
+                    BackgroundColor3 = rgb(255, 0, 0)
+                });                    items[ "sat" ] = library:create( "TextButton" , {
                         Parent = items[ "saturation_holder" ];
                         Name = "\0";
                         Size = dim2(1, 0, 1, 0);
