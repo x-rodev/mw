@@ -922,6 +922,54 @@
                     PaddingLeft = dim(0, 7)
                 });
                 
+                -- Create left column
+                items[ "left_column" ] = library:create( "Frame" , {
+                    Parent = items[ "tab_holder" ];
+                    BackgroundTransparency = 1;
+                    Name = "\0";
+                    BorderColor3 = rgb(0, 0, 0);
+                    Size = dim2(0, 0, 0.5, 0);
+                    BorderSizePixel = 0;
+                    BackgroundColor3 = rgb(255, 255, 255)
+                });
+                
+                library:create( "UIPadding" , {
+                    PaddingBottom = dim(0, 10);
+                    Parent = items[ "left_column" ]
+                });
+                
+                library:create( "UIListLayout" , {
+                    Parent = items[ "left_column" ];
+                    HorizontalFlex = Enum.UIFlexAlignment.Fill;
+                    Padding = dim(0, 10);
+                    FillDirection = Enum.FillDirection.Vertical;
+                    SortOrder = Enum.SortOrder.LayoutOrder
+                });
+                
+                -- Create right column
+                items[ "right_column" ] = library:create( "Frame" , {
+                    Parent = items[ "tab_holder" ];
+                    BackgroundTransparency = 1;
+                    Name = "\0";
+                    BorderColor3 = rgb(0, 0, 0);
+                    Size = dim2(0, 0, 0.5, 0);
+                    BorderSizePixel = 0;
+                    BackgroundColor3 = rgb(255, 255, 255)
+                });
+                
+                library:create( "UIPadding" , {
+                    PaddingBottom = dim(0, 10);
+                    Parent = items[ "right_column" ]
+                });
+                
+                library:create( "UIListLayout" , {
+                    Parent = items[ "right_column" ];
+                    HorizontalFlex = Enum.UIFlexAlignment.Fill;
+                    Padding = dim(0, 10);
+                    FillDirection = Enum.FillDirection.Vertical;
+                    SortOrder = Enum.SortOrder.LayoutOrder
+                });
+                
                 -- Tab buttons 
                     items[ "button" ] = library:create( "TextButton" , {
                         FontFace = fonts.font;
@@ -1112,10 +1160,13 @@
                 items = {};
             };
             
+            -- Determine which column to use based on side
+            local parent_column = cfg.side == "left" and self.items["left_column"] or self.items["right_column"]
+            
             local items = cfg.items; do 
                 items[ "outline" ] = library:create( "Frame" , {
                     Name = "\0";
-                    Parent = self.items[ "column" ];
+                    Parent = parent_column;
                     BorderColor3 = rgb(0, 0, 0);
                     Size = dim2(0, 0, cfg.size, -3);
                     BorderSizePixel = 0;
