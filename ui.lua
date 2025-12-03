@@ -318,21 +318,17 @@
                 if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
                     local viewport_x = camera.ViewportSize.X
                     local viewport_y = camera.ViewportSize.Y
+                    
+                    -- Allow dragging to edges and slightly beyond for better mobile experience
+                    local min_visible = 50 -- minimum pixels that must remain visible
+                    local new_x = start_size.X.Offset + (input.Position.X - start.X)
+                    local new_y = start_size.Y.Offset + (input.Position.Y - start.Y)
+                    
+                    -- Clamp with more lenient boundaries
+                    new_x = clamp(new_x, -frame.Size.X.Offset + min_visible, viewport_x - min_visible)
+                    new_y = clamp(new_y, 0, viewport_y - min_visible)
 
-                    local current_position = dim2(
-                        0,
-                        clamp(
-                            start_size.X.Offset + (input.Position.X - start.X),
-                            0,
-                            viewport_x - frame.Size.X.Offset
-                        ),
-                        0,
-                        math.clamp(
-                            start_size.Y.Offset + (input.Position.Y - start.Y),
-                            0,
-                            viewport_y - frame.Size.Y.Offset
-                        )
-                    )
+                    local current_position = dim2(0, new_x, 0, new_y)
 
                     library:tween(frame, {Position = current_position}, Enum.EasingStyle.Linear, 0.05)
                     library:close_element()
@@ -1227,6 +1223,11 @@
                     TextSize = 16;
                     BackgroundColor3 = rgb(19, 19, 21)
                 });
+                
+                -- Make section draggable on mobile
+                if is_mobile then
+                    library:draggify(items[ "outline" ])
+                end
                 
                 library:create( "UIStroke" , {
                     Color = rgb(23, 23, 29);
