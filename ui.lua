@@ -503,7 +503,7 @@
                 suffix = properties.suffix or properties.Suffix or "tech";
                 name = properties.name or properties.Name or "nebula";
                 game_name = properties.gameInfo or properties.game_info or properties.GameInfo or "Milenium for Counter-Strike: Global Offensive";
-                size = properties.size or properties.Size or (is_mobile and dim2(0, math.min(450, camera.ViewportSize.X - 20), 0, 500) or dim2(0, 700, 0, 565));
+                size = properties.size or properties.Size or (is_mobile and dim2(0, math.min(camera.ViewportSize.X - 20, 600), 0, 500) or dim2(0, 900, 0, 600));
                 selected_tab;
                 items = {};
 
@@ -574,7 +574,7 @@
                     BackgroundTransparency = 1;
                     Position = dim2(0, 0, 0, 60);
                     BorderColor3 = rgb(0, 0, 0);
-                    Size = dim2(1, 0, 1, -60);
+                    Size = dim2(1, 0, 1, -110);
                     BorderSizePixel = 0;
                     BackgroundColor3 = rgb(255, 255, 255)
                 }); cfg.button_holder = items[ "button_holder" ];
@@ -730,11 +730,11 @@
                 
                 -- Player info (profile picture and username)
                 items[ "player_info" ] = library:create( "Frame" , {
-                    Parent = items[ "side_frame" ];
+                    Parent = items[ "main" ];
                     Name = "\0";
                     BackgroundTransparency = 1;
-                    Position = dim2(0, 10, 1, -45);
-                    Size = dim2(1, -20, 0, 35);
+                    Position = dim2(0, 8, 1, -33);
+                    Size = dim2(0, 188, 0, 35);
                     BorderSizePixel = 0;
                     AnchorPoint = vec2(0, 1);
                 });
