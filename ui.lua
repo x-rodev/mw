@@ -771,9 +771,9 @@
                     BackgroundColor3 = rgb(255, 255, 255);
                 });
                 
-                -- Mobile toggle button (close only, always on left)
+                -- Mobile toggle button (for open AND close)
                 if is_mobile then
-                    items[ "mobile_toggle" ] = library:create( "TextButton" , {
+                    items[ "mobile_toggle_close" ] = library:create( "TextButton" , {
                         Parent = library[ "items" ];
                         Name = "\0";
                         Size = dim2(0, 45, 0, 45);
@@ -784,22 +784,22 @@
                         Text = "";
                         AutoButtonColor = false;
                         ZIndex = 100;
-                        Visible = false;
+                        Visible = true;
                     });
                     
                     library:create( "UICorner" , {
-                        Parent = items[ "mobile_toggle" ];
+                        Parent = items[ "mobile_toggle_close" ];
                         CornerRadius = dim(0, 8)
                     });
                     
                     library:create( "UIStroke" , {
                         Color = rgb(23, 23, 29);
-                        Parent = items[ "mobile_toggle" ];
+                        Parent = items[ "mobile_toggle_close" ];
                         ApplyStrokeMode = Enum.ApplyStrokeMode.Border
                     });
                     
-                    items[ "mobile_toggle_icon" ] = library:create( "ImageLabel" , {
-                        Parent = items[ "mobile_toggle" ];
+                    items[ "mobile_toggle_close_icon" ] = library:create( "ImageLabel" , {
+                        Parent = items[ "mobile_toggle_close" ];
                         Name = "\0";
                         Size = dim2(0, 28, 0, 28);
                         Position = dim2(0.5, -14, 0.5, -14);
@@ -807,10 +807,51 @@
                         Image = "rbxassetid://6031094678";
                         ImageColor3 = themes.preset.accent;
                         BorderSizePixel = 0;
-                    }); library:apply_theme(items[ "mobile_toggle_icon" ], "accent", "ImageColor3");
+                    }); library:apply_theme(items[ "mobile_toggle_close_icon" ], "accent", "ImageColor3");
                     
-                    items[ "mobile_toggle" ].MouseButton1Click:Connect(function()
+                    items[ "mobile_toggle_close" ].MouseButton1Click:Connect(function()
                         cfg.toggle_menu(false)
+                    end)
+                    
+                    -- Open button (shows when menu is closed)
+                    items[ "mobile_toggle_open" ] = library:create( "TextButton" , {
+                        Parent = library[ "items" ];
+                        Name = "\0";
+                        Size = dim2(0, 45, 0, 45);
+                        Position = dim2(0, 10, 0.5, -22);
+                        BorderColor3 = rgb(0, 0, 0);
+                        BorderSizePixel = 0;
+                        BackgroundColor3 = rgb(25, 25, 29);
+                        Text = "";
+                        AutoButtonColor = false;
+                        ZIndex = 100;
+                        Visible = true;
+                    });
+                    
+                    library:create( "UICorner" , {
+                        Parent = items[ "mobile_toggle_open" ];
+                        CornerRadius = dim(0, 8)
+                    });
+                    
+                    library:create( "UIStroke" , {
+                        Color = rgb(23, 23, 29);
+                        Parent = items[ "mobile_toggle_open" ];
+                        ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+                    });
+                    
+                    items[ "mobile_toggle_open_icon" ] = library:create( "ImageLabel" , {
+                        Parent = items[ "mobile_toggle_open" ];
+                        Name = "\0";
+                        Size = dim2(0, 28, 0, 28);
+                        Position = dim2(0.5, -14, 0.5, -14);
+                        BackgroundTransparency = 1;
+                        Image = "rbxassetid://6034825597";
+                        ImageColor3 = themes.preset.accent;
+                        BorderSizePixel = 0;
+                    }); library:apply_theme(items[ "mobile_toggle_open_icon" ], "accent", "ImageColor3");
+                    
+                    items[ "mobile_toggle_open" ].MouseButton1Click:Connect(function()
+                        cfg.toggle_menu(true)
                     end)
                 end
             end 
@@ -831,8 +872,13 @@
                 -- cfg.tween = 
                 
                 items[ "main" ].Visible = bool
-                if is_mobile and items[ "mobile_toggle" ] then
-                    items[ "mobile_toggle" ].Visible = not bool
+                if is_mobile then
+                    if items[ "mobile_toggle_close" ] then
+                        items[ "mobile_toggle_close" ].Visible = bool
+                    end
+                    if items[ "mobile_toggle_open" ] then
+                        items[ "mobile_toggle_open" ].Visible = not bool
+                    end
                 end
             end 
                 
@@ -848,7 +894,7 @@
             } 
 
             local items = cfg.items; do 
-                items[ "tab_holder" ] = library:create( "Frame" , {
+                items[ "tab_holder" ] = library:create( "ScrollingFrame" , {
                     Parent = library.cache;
                     Name = "\0";
                     Visible = false;
@@ -857,13 +903,16 @@
                     BorderColor3 = rgb(0, 0, 0);
                     Size = dim2(1, -216, 1, -25);
                     BorderSizePixel = 0;
-                    BackgroundColor3 = rgb(255, 255, 255)
+                    BackgroundColor3 = rgb(255, 255, 255);
+                    ScrollBarThickness = 4;
+                    ScrollBarImageColor3 = rgb(44, 44, 46);
+                    CanvasSize = dim2(0, 0, 0, 0);
+                    AutomaticCanvasSize = Enum.AutomaticSize.Y;
                 });
                 
                 library:create( "UIListLayout" , {
                     FillDirection = Enum.FillDirection.Horizontal;
                     HorizontalFlex = Enum.UIFlexAlignment.Fill;
-                    VerticalFlex = Enum.UIFlexAlignment.Fill;
                     Parent = items[ "tab_holder" ];
                     Padding = dim(0, 7);
                     SortOrder = Enum.SortOrder.LayoutOrder;
@@ -2277,7 +2326,8 @@
                         Size = dim2(0, 166, 0, 197);
                         BorderSizePixel = 0;
                         Visible = true;
-                        BackgroundColor3 = rgb(25, 25, 29)
+                        BackgroundColor3 = rgb(25, 25, 29);
+                        ZIndex = 50;
                     });
 
                     items[ "colorpicker_fade" ] = library:create( "Frame" , {
@@ -2288,7 +2338,7 @@
                         BorderColor3 = rgb(0, 0, 0);
                         Size = dim2(1, 0, 1, 0);
                         BorderSizePixel = 0;
-                        ZIndex = 100;
+                        ZIndex = 51;
                         BackgroundColor3 = rgb(25, 25, 29)
                     });
                     
@@ -2299,7 +2349,8 @@
                         BorderColor3 = rgb(0, 0, 0);
                         Size = dim2(1, -2, 1, -2);
                         BorderSizePixel = 0;
-                        BackgroundColor3 = rgb(22, 22, 24)
+                        BackgroundColor3 = rgb(22, 22, 24);
+                        ZIndex = 52;
                     });
                     
                     library:create( "UICorner" , {
