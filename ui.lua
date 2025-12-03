@@ -1,3 +1,11 @@
+--[[
+
+    Milenium Library
+    -> Made by @finobe 
+    -> Kind of got bored idk what to do with life
+    -> Idk who or why this got leaked, ui was VERY popular and high in demand with customers
+]]
+
 -- Variables 
     local uis = game:GetService("UserInputService") 
     local players = game:GetService("Players") 
@@ -1088,34 +1096,6 @@
                         SortOrder = Enum.SortOrder.LayoutOrder
                     });
                 end 
-
-                return setmetatable(cfg, library)
-            end 
-
-            function library:sub_tab(properties) 
-                local cfg = {items = {}, order = properties.order or 0; size = properties.size or 1}
-
-                local items = cfg.items; do 
-                    items[ "tab_parent" ] = library:create( "Frame" , {
-                        Parent = self.items[ "tab_holder" ];
-                        BackgroundTransparency = 1;
-                        Name = "\0";
-                        Size = dim2(0,0,cfg.size,0);
-                        BorderColor3 = rgb(0, 0, 0);
-                        BorderSizePixel = 0;
-                        Visible = true;
-                        BackgroundColor3 = rgb(255, 255, 255)
-                    });
-                    
-                    library:create( "UIListLayout" , {
-                        FillDirection = Enum.FillDirection.Horizontal;
-                        HorizontalFlex = Enum.UIFlexAlignment.Fill;
-                        VerticalFlex = Enum.UIFlexAlignment.Fill;
-                        Parent = items[ "tab_parent" ];
-                        Padding = dim(0, 7);
-                        SortOrder = Enum.SortOrder.LayoutOrder;
-                    });
-                end
 
                 return setmetatable(cfg, library)
             end 
