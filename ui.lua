@@ -1201,11 +1201,55 @@
             local parent_column = cfg.side == "left" and self.items["left_column"] or self.items["right_column"]
             
             local items = cfg.items; do 
-                items[ "outline" ] = library:create( "Frame" , {
+                -- Create outer section container with scrolling
+                items[ "section_container" ] = library:create( "Frame" , {
                     Name = "\0";
                     Parent = parent_column;
                     BorderColor3 = rgb(0, 0, 0);
-                    Size = dim2(1, 0, 0, 0);
+                    Size = dim2(1, 0, 0, 250);
+                    BorderSizePixel = 0;
+                    BackgroundColor3 = rgb(25, 25, 29);
+                    ClipsDescendants = true
+                });
+                
+                library:create( "UICorner" , {
+                    Parent = items[ "section_container" ];
+                    CornerRadius = dim(0, 7)
+                });
+                
+                library:create( "UIStroke" , {
+                    Color = rgb(23, 23, 29);
+                    Parent = items[ "section_container" ];
+                    ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+                });
+                
+                -- ScrollingFrame inside the container
+                items[ "section_scroll" ] = library:create( "ScrollingFrame" , {
+                    Parent = items[ "section_container" ];
+                    Name = "\0";
+                    Size = dim2(1, 0, 1, 0);
+                    BackgroundTransparency = 1;
+                    BorderSizePixel = 0;
+                    ScrollBarThickness = 4;
+                    ScrollBarImageColor3 = rgb(155, 150, 219);
+                    CanvasSize = dim2(1, 0, 0, 0);
+                    AutomaticCanvasSize = Enum.AutomaticSize.Y;
+                    ScrollingDirection = Enum.ScrollingDirection.Y
+                });
+                
+                library:create( "UIPadding" , {
+                    PaddingTop = dim(0, 5);
+                    PaddingBottom = dim(0, 5);
+                    Parent = items[ "section_scroll" ];
+                    PaddingRight = dim(0, 5);
+                    PaddingLeft = dim(0, 5)
+                });
+                
+                items[ "outline" ] = library:create( "Frame" , {
+                    Name = "\0";
+                    Parent = items[ "section_scroll" ];
+                    BorderColor3 = rgb(0, 0, 0);
+                    Size = dim2(1, -5, 0, 0);
                     AutomaticSize = Enum.AutomaticSize.Y;
                     BorderSizePixel = 0;
                     BackgroundColor3 = rgb(25, 25, 29);
