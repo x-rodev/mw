@@ -499,7 +499,7 @@
                 suffix = properties.suffix or properties.Suffix or "tech";
                 name = properties.name or properties.Name or "nebula";
                 game_name = properties.gameInfo or properties.game_info or properties.GameInfo or "Milenium for Counter-Strike: Global Offensive";
-                size = properties.size or properties.Size or (is_mobile and dim2(0, 250, 0, 320) or dim2(0, 900, 0, 600));
+                size = properties.size or properties.Size or (is_mobile and dim2(0.85, 0, 0.65, 0) or dim2(0, 900, 0, 600));
                 selected_tab;
                 items = {};
 
@@ -608,12 +608,13 @@
                     Name = "\0";
                     Text = string.format('<u>%s</u><font color = "rgb(255, 255, 255)">%s</font>', cfg.name, cfg.suffix);
                     BackgroundTransparency = 1;
-                    Position = dim2(0, 35, 0, 0);
-                    Size = dim2(1, -35, 0, 50);
+                    Position = dim2(0, 32, 0, 12);
+                    Size = dim2(1, -32, 0, 30);
                     TextColor3 = themes.preset.accent;
                     BorderSizePixel = 0;
                     RichText = true;
-                    TextSize = 22;
+                    TextSize = 18;
+                    TextXAlignment = Enum.TextXAlignment.Left;
                     BackgroundColor3 = rgb(255, 255, 255)
                 }); library:apply_theme(items[ "title" ], "accent", "TextColor3");
                 
@@ -1221,7 +1222,8 @@
                     BorderColor3 = rgb(0, 0, 0);
                     Size = dim2(1, -2, 1, -2);
                     BorderSizePixel = 0;
-                    BackgroundColor3 = rgb(22, 22, 24)
+                    BackgroundColor3 = rgb(22, 22, 24);
+                    ClipsDescendants = true
                 });
                 
                 library:create( "UICorner" , {
@@ -1238,7 +1240,7 @@
                     BackgroundColor3 = rgb(255, 255, 255);
                     BorderColor3 = rgb(0, 0, 0);
                     BorderSizePixel = 0;
-                    ClipsDescendants = false
+                    ClipsDescendants = true
                 });
                 
                 items[ "elements" ] = library:create( "Frame" , {
