@@ -324,9 +324,9 @@
                     local new_x = start_size.X.Offset + (input.Position.X - start.X)
                     local new_y = start_size.Y.Offset + (input.Position.Y - start.Y)
                     
-                    -- Clamp with more lenient boundaries
+                    -- Clamp with more lenient boundaries (allow negative Y for top)
                     new_x = clamp(new_x, -frame.Size.X.Offset + min_visible, viewport_x - min_visible)
-                    new_y = clamp(new_y, 0, viewport_y - min_visible)
+                    new_y = clamp(new_y, -frame.Size.Y.Offset + min_visible, viewport_y - min_visible)
 
                     local current_position = dim2(0, new_x, 0, new_y)
 
@@ -1168,7 +1168,8 @@
                     Name = "\0";
                     Parent = parent_column;
                     BorderColor3 = rgb(0, 0, 0);
-                    Size = dim2(0, 0, cfg.size, -3);
+                    Size = dim2(1, 0, 0, 0);
+                    AutomaticSize = Enum.AutomaticSize.Y;
                     BorderSizePixel = 0;
                     BackgroundColor3 = rgb(25, 25, 29)
                 });
@@ -1202,7 +1203,7 @@
                     BackgroundColor3 = rgb(255, 255, 255);
                     BorderColor3 = rgb(0, 0, 0);
                     BorderSizePixel = 0;
-                    ClipsDescendants = false
+                    ClipsDescendants = true
                 });
                 
                 items[ "elements" ] = library:create( "Frame" , {
