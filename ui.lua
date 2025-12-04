@@ -964,7 +964,8 @@
                     Size = dim2(0.5, 0, 0, 0);
                     AutomaticSize = Enum.AutomaticSize.Y;
                     BorderSizePixel = 0;
-                    BackgroundColor3 = rgb(255, 255, 255)
+                    BackgroundColor3 = rgb(255, 255, 255);
+                    ClipsDescendants = true
                 });
                 
                 library:create( "UIPadding" , {
@@ -989,7 +990,8 @@
                     Size = dim2(0.5, 0, 0, 0);
                     AutomaticSize = Enum.AutomaticSize.Y;
                     BorderSizePixel = 0;
-                    BackgroundColor3 = rgb(255, 255, 255)
+                    BackgroundColor3 = rgb(255, 255, 255);
+                    ClipsDescendants = true
                 });
                 
                 library:create( "UIPadding" , {
