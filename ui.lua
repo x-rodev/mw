@@ -499,7 +499,7 @@
                 suffix = properties.suffix or properties.Suffix or "tech";
                 name = properties.name or properties.Name or "nebula";
                 game_name = properties.gameInfo or properties.game_info or properties.GameInfo or "Milenium for Counter-Strike: Global Offensive";
-                size = properties.size or properties.Size or (is_mobile and dim2(0, math.min(camera.ViewportSize.X - 20, 400), 0, math.min(camera.ViewportSize.Y - 40, 450)) or dim2(0, 900, 0, 600));
+                size = properties.size or properties.Size or (is_mobile and dim2(0, 350, 0, 500) or dim2(0, 900, 0, 600));
                 selected_tab;
                 items = {};
 
@@ -1154,7 +1154,7 @@
                 name = properties.name or properties.Name or "section"; 
                 side = properties.side or properties.Side or "left";
                 default = properties.default or properties.Default or false;
-                size = properties.size or properties.Size or self.size or 0.5; 
+                size = properties.size or properties.Size or self.size or 1; 
                 icon = properties.icon or properties.Icon or "rbxassetid://6022668898";
                 fading_toggle = properties.fading or properties.Fading or false;
                 items = {};
@@ -1196,13 +1196,13 @@
                 items[ "scrolling" ] = library:create( "Frame" , {
                     Parent = items[ "inline" ];
                     Name = "\0";
-                    Size = dim2(1, 0, 1, -40);
+                    Size = dim2(1, 0, 1, -35);
                     BackgroundTransparency = 1;
                     Position = dim2(0, 0, 0, 35);
                     BackgroundColor3 = rgb(255, 255, 255);
                     BorderColor3 = rgb(0, 0, 0);
                     BorderSizePixel = 0;
-                    ClipsDescendants = true
+                    ClipsDescendants = false
                 });
                 
                 items[ "elements" ] = library:create( "Frame" , {
