@@ -1946,24 +1946,6 @@
                         PaddingLeft = dim(0, 5)
                     });
                     
-                    items[ "right_components" ] = library:create( "Frame" , {
-                        Parent = items[ "dropdown_object" ];
-                        Name = "\0";
-                        Position = dim2(1, 0, 0, 0);
-                        BorderColor3 = rgb(0, 0, 0);
-                        Size = dim2(0, 0, 1, 0);
-                        BorderSizePixel = 0;
-                        BackgroundColor3 = rgb(255, 255, 255)
-                    });
-                    
-                    library:create( "UIListLayout" , {
-                        FillDirection = Enum.FillDirection.Horizontal;
-                        HorizontalAlignment = Enum.HorizontalAlignment.Right;
-                        Parent = items[ "right_components" ];
-                        Padding = dim(0, 7);
-                        SortOrder = Enum.SortOrder.LayoutOrder
-                    });
-                    
                     items[ "dropdown" ] = library:create( "TextButton" , {
                         FontFace = fonts.small;
                         TextColor3 = rgb(245, 245, 245);
