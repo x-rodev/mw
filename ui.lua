@@ -1173,10 +1173,10 @@
                     Name = "\0";
                     Parent = parent_column;
                     BorderColor3 = rgb(0, 0, 0);
-                    Size = dim2(1, 0, 0, 250);
+                    Size = dim2(1, 0, 0, 0);
+                    AutomaticSize = Enum.AutomaticSize.Y;
                     BorderSizePixel = 0;
-                    BackgroundColor3 = rgb(25, 25, 29);
-                    ClipsDescendants = true
+                    BackgroundColor3 = rgb(25, 25, 29)
                 });
 
                 library:create( "UICorner" , {
@@ -1199,7 +1199,7 @@
                     CornerRadius = dim(0, 7)
                 });
                 
-                items[ "scrolling" ] = library:create( "ScrollingFrame" , {
+                items[ "scrolling" ] = library:create( "Frame" , {
                     Parent = items[ "inline" ];
                     Name = "\0";
                     Size = dim2(1, 0, 1, -35);
@@ -1208,11 +1208,7 @@
                     BackgroundColor3 = rgb(255, 255, 255);
                     BorderColor3 = rgb(0, 0, 0);
                     BorderSizePixel = 0;
-                    ScrollBarThickness = 3;
-                    ScrollBarImageColor3 = rgb(44, 44, 46);
-                    CanvasSize = dim2(0, 0, 0, 0);
-                    AutomaticCanvasSize = Enum.AutomaticSize.Y;
-                    Active = true
+                    ClipsDescendants = false
                 });
                 
                 items[ "elements" ] = library:create( "Frame" , {
