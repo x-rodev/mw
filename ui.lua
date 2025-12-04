@@ -604,7 +604,6 @@
                 items[ "title" ] = library:create( "TextLabel" , {
                     FontFace = fonts.font;
                     BorderColor3 = rgb(0, 0, 0);
-                    Text = name;
                     Parent = items[ "side_frame" ];
                     Name = "\0";
                     Text = string.format('<u>%s</u><font color = "rgb(255, 255, 255)">%s</font>', cfg.name, cfg.suffix);
