@@ -1252,7 +1252,8 @@
                     Size = dim2(1, -20, 0, 0);
                     BorderSizePixel = 0;
                     AutomaticSize = Enum.AutomaticSize.Y;
-                    BackgroundColor3 = rgb(255, 255, 255)
+                    BackgroundColor3 = rgb(255, 255, 255);
+                    ClipsDescendants = true
                 });
                 
                 library:create( "UIListLayout" , {
