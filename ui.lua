@@ -1201,59 +1201,13 @@
             local parent_column = cfg.side == "left" and self.items["left_column"] or self.items["right_column"]
             
             local items = cfg.items; do 
-                -- Create outer section container with scrolling
-                items[ "section_container" ] = library:create( "Frame" , {
+                items[ "outline" ] = library:create( "Frame" , {
                     Name = "\0";
                     Parent = parent_column;
                     BorderColor3 = rgb(0, 0, 0);
-                    Size = dim2(1, 0, 0, 250);
+                    Size = dim2(0, 0, cfg.size, -3);
                     BorderSizePixel = 0;
-                    BackgroundColor3 = rgb(25, 25, 29);
-                    ClipsDescendants = true
-                });
-                
-                library:create( "UICorner" , {
-                    Parent = items[ "section_container" ];
-                    CornerRadius = dim(0, 7)
-                });
-                
-                library:create( "UIStroke" , {
-                    Color = rgb(23, 23, 29);
-                    Parent = items[ "section_container" ];
-                    ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-                });
-                
-                -- ScrollingFrame inside the container
-                items[ "section_scroll" ] = library:create( "ScrollingFrame" , {
-                    Parent = items[ "section_container" ];
-                    Name = "\0";
-                    Size = dim2(1, 0, 1, 0);
-                    BackgroundTransparency = 1;
-                    BorderSizePixel = 0;
-                    ScrollBarThickness = 4;
-                    ScrollBarImageColor3 = rgb(155, 150, 219);
-                    CanvasSize = dim2(1, 0, 0, 0);
-                    AutomaticCanvasSize = Enum.AutomaticSize.Y;
-                    ScrollingDirection = Enum.ScrollingDirection.Y
-                });
-                
-                library:create( "UIPadding" , {
-                    PaddingTop = dim(0, 5);
-                    PaddingBottom = dim(0, 5);
-                    Parent = items[ "section_scroll" ];
-                    PaddingRight = dim(0, 5);
-                    PaddingLeft = dim(0, 5)
-                });
-                
-                items[ "outline" ] = library:create( "Frame" , {
-                    Name = "\0";
-                    Parent = items[ "section_scroll" ];
-                    BorderColor3 = rgb(0, 0, 0);
-                    Size = dim2(1, -5, 0, 0);
-                    AutomaticSize = Enum.AutomaticSize.Y;
-                    BorderSizePixel = 0;
-                    BackgroundColor3 = rgb(25, 25, 29);
-                    ClipsDescendants = true
+                    BackgroundColor3 = rgb(25, 25, 29)
                 });
 
                 library:create( "UICorner" , {
@@ -1268,8 +1222,7 @@
                     BorderColor3 = rgb(0, 0, 0);
                     Size = dim2(1, -2, 1, -2);
                     BorderSizePixel = 0;
-                    BackgroundColor3 = rgb(22, 22, 24);
-                    ClipsDescendants = true
+                    BackgroundColor3 = rgb(22, 22, 24)
                 });
                 
                 library:create( "UICorner" , {
@@ -1277,16 +1230,20 @@
                     CornerRadius = dim(0, 7)
                 });
                 
-                items[ "scrolling" ] = library:create( "Frame" , {
+                items[ "scrolling" ] = library:create( "ScrollingFrame" , {
+                    ScrollBarImageColor3 = rgb(44, 44, 46);
+                    Active = true;
+                    AutomaticCanvasSize = Enum.AutomaticSize.Y;
+                    ScrollBarThickness = 2;
                     Parent = items[ "inline" ];
                     Name = "\0";
-                    Size = dim2(1, 0, 1, -35);
+                    Size = dim2(1, 0, 1, -40);
                     BackgroundTransparency = 1;
                     Position = dim2(0, 0, 0, 35);
                     BackgroundColor3 = rgb(255, 255, 255);
                     BorderColor3 = rgb(0, 0, 0);
                     BorderSizePixel = 0;
-                    ClipsDescendants = true
+                    CanvasSize = dim2(0, 0, 0, 0)
                 });
                 
                 items[ "elements" ] = library:create( "Frame" , {
@@ -1298,8 +1255,7 @@
                     Size = dim2(1, -20, 0, 0);
                     BorderSizePixel = 0;
                     AutomaticSize = Enum.AutomaticSize.Y;
-                    BackgroundColor3 = rgb(255, 255, 255);
-                    ClipsDescendants = true
+                    BackgroundColor3 = rgb(255, 255, 255)
                 });
                 
                 library:create( "UIListLayout" , {
