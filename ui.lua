@@ -499,7 +499,7 @@
                 suffix = properties.suffix or properties.Suffix or "tech";
                 name = properties.name or properties.Name or "nebula";
                 game_name = properties.gameInfo or properties.game_info or properties.GameInfo or "Milenium for Counter-Strike: Global Offensive";
-                size = properties.size or properties.Size or (is_mobile and dim2(0, 320, 0, 400) or dim2(0, 900, 0, 600));
+                size = properties.size or properties.Size or (is_mobile and dim2(0, 280, 0, 350) or dim2(0, 900, 0, 600));
                 selected_tab;
                 items = {};
 
@@ -905,11 +905,13 @@
                     CanvasSize = dim2(0, 0, 0, 0);
                     AutomaticCanvasSize = Enum.AutomaticSize.Y;
                     Active = true;
+                    ScrollingEnabled = true;
                 });
                 
                 library:create( "UIListLayout" , {
                     FillDirection = Enum.FillDirection.Horizontal;
-                    HorizontalFlex = Enum.UIFlexAlignment.Fill;
+                    HorizontalAlignment = Enum.HorizontalAlignment.Left;
+                    VerticalAlignment = Enum.VerticalAlignment.Top;
                     Parent = items[ "tab_holder" ];
                     Padding = dim(0, 7);
                     SortOrder = Enum.SortOrder.LayoutOrder;
@@ -1171,10 +1173,10 @@
                     Name = "\0";
                     Parent = parent_column;
                     BorderColor3 = rgb(0, 0, 0);
-                    Size = dim2(1, 0, 0, 0);
-                    AutomaticSize = Enum.AutomaticSize.Y;
+                    Size = dim2(1, 0, 0, 250);
                     BorderSizePixel = 0;
-                    BackgroundColor3 = rgb(25, 25, 29)
+                    BackgroundColor3 = rgb(25, 25, 29);
+                    ClipsDescendants = true
                 });
 
                 library:create( "UICorner" , {
@@ -1197,7 +1199,7 @@
                     CornerRadius = dim(0, 7)
                 });
                 
-                items[ "scrolling" ] = library:create( "Frame" , {
+                items[ "scrolling" ] = library:create( "ScrollingFrame" , {
                     Parent = items[ "inline" ];
                     Name = "\0";
                     Size = dim2(1, 0, 1, -35);
@@ -1206,7 +1208,11 @@
                     BackgroundColor3 = rgb(255, 255, 255);
                     BorderColor3 = rgb(0, 0, 0);
                     BorderSizePixel = 0;
-                    ClipsDescendants = true
+                    ScrollBarThickness = 3;
+                    ScrollBarImageColor3 = rgb(44, 44, 46);
+                    CanvasSize = dim2(0, 0, 0, 0);
+                    AutomaticCanvasSize = Enum.AutomaticSize.Y;
+                    Active = true
                 });
                 
                 items[ "elements" ] = library:create( "Frame" , {
