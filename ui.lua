@@ -499,7 +499,7 @@
                 suffix = properties.suffix or properties.Suffix or "tech";
                 name = properties.name or properties.Name or "nebula";
                 game_name = properties.gameInfo or properties.game_info or properties.GameInfo or "Milenium for Counter-Strike: Global Offensive";
-                size = properties.size or properties.Size or (is_mobile and dim2(0, 350, 0, 500) or dim2(0, 900, 0, 600));
+                size = properties.size or properties.Size or (is_mobile and dim2(0, 320, 0, 400) or dim2(0, 900, 0, 600));
                 selected_tab;
                 items = {};
 
@@ -895,15 +895,16 @@
                     Name = "\0";
                     Visible = false;
                     BackgroundTransparency = 1;
-                    Position = dim2(0, 196, 0, 0);
+                    Position = dim2(0, 196, 0, 56);
                     BorderColor3 = rgb(0, 0, 0);
-                    Size = dim2(1, -216, 1, -25);
+                    Size = dim2(1, -196, 1, -81);
                     BorderSizePixel = 0;
                     BackgroundColor3 = rgb(255, 255, 255);
                     ScrollBarThickness = 4;
                     ScrollBarImageColor3 = rgb(44, 44, 46);
                     CanvasSize = dim2(0, 0, 0, 0);
                     AutomaticCanvasSize = Enum.AutomaticSize.Y;
+                    Active = true;
                 });
                 
                 library:create( "UIListLayout" , {
