@@ -499,7 +499,7 @@
                 suffix = properties.suffix or properties.Suffix or "tech";
                 name = properties.name or properties.Name or "nebula";
                 game_name = properties.gameInfo or properties.game_info or properties.GameInfo or "Milenium for Counter-Strike: Global Offensive";
-                size = properties.size or properties.Size or (is_mobile and dim2(0, 280, 0, 350) or dim2(0, 900, 0, 600));
+                size = properties.size or properties.Size or (is_mobile and dim2(0, 250, 0, 320) or dim2(0, 900, 0, 600));
                 selected_tab;
                 items = {};
 
@@ -590,6 +590,17 @@
                 });
 
                 local accent = themes.preset.accent
+                
+                items[ "title_icon" ] = library:create( "ImageLabel" , {
+                    Parent = items[ "side_frame" ];
+                    Image = "rbxassetid://6022668898";
+                    ImageColor3 = themes.preset.accent;
+                    BackgroundTransparency = 1;
+                    Position = dim2(0, 10, 0, 15);
+                    Size = dim2(0, 20, 0, 20);
+                    BorderSizePixel = 0
+                }); library:apply_theme(items[ "title_icon" ], "accent", "ImageColor3");
+                
                 items[ "title" ] = library:create( "TextLabel" , {
                     FontFace = fonts.font;
                     BorderColor3 = rgb(0, 0, 0);
@@ -598,11 +609,12 @@
                     Name = "\0";
                     Text = string.format('<u>%s</u><font color = "rgb(255, 255, 255)">%s</font>', cfg.name, cfg.suffix);
                     BackgroundTransparency = 1;
-                    Size = dim2(1, 0, 0, 70);
+                    Position = dim2(0, 35, 0, 0);
+                    Size = dim2(1, -35, 0, 50);
                     TextColor3 = themes.preset.accent;
                     BorderSizePixel = 0;
                     RichText = true;
-                    TextSize = 30;
+                    TextSize = 22;
                     BackgroundColor3 = rgb(255, 255, 255)
                 }); library:apply_theme(items[ "title" ], "accent", "TextColor3");
                 
@@ -668,9 +680,10 @@
                     Name = "\0";
                     Position = dim2(0, 0, 1, 0);
                     BorderColor3 = rgb(0, 0, 0);
-                    Size = dim2(1, 0, 0, 25);
+                    Size = dim2(1, 0, 0, 0);
                     BorderSizePixel = 0;
-                    BackgroundColor3 = rgb(23, 23, 25)
+                    BackgroundColor3 = rgb(23, 23, 25);
+                    Visible = false
                 });
                 
                 library:create( "UICorner" , {
@@ -754,16 +767,33 @@
                     FontFace = fonts.font;
                     TextColor3 = rgb(245, 245, 245);
                     BorderColor3 = rgb(0, 0, 0);
-                    Text = lp.Name;
+                    Text = lp.DisplayName;
                     Parent = items[ "player_info" ];
                     Name = "\0";
-                    Size = dim2(1, -40, 0, 32);
+                    Size = dim2(1, -40, 0, 16);
                     Position = dim2(0, 40, 0, 0);
                     BackgroundTransparency = 1;
                     TextXAlignment = Enum.TextXAlignment.Left;
                     BorderSizePixel = 0;
-                    TextSize = 14;
-                    TextTruncate = Enum.TextTruncate.AtEnd;
+                    TextSize = 12;
+                    TextScaled = true;
+                    BackgroundColor3 = rgb(255, 255, 255);
+                });
+                
+                items[ "player_username" ] = library:create( "TextLabel" , {
+                    FontFace = fonts.font;
+                    TextColor3 = rgb(150, 150, 150);
+                    BorderColor3 = rgb(0, 0, 0);
+                    Text = "@" .. lp.Name;
+                    Parent = items[ "player_info" ];
+                    Name = "\0";
+                    Size = dim2(1, -40, 0, 14);
+                    Position = dim2(0, 40, 0, 18);
+                    BackgroundTransparency = 1;
+                    TextXAlignment = Enum.TextXAlignment.Left;
+                    BorderSizePixel = 0;
+                    TextSize = 10;
+                    TextScaled = true;
                     BackgroundColor3 = rgb(255, 255, 255);
                 });
                 
@@ -1176,7 +1206,8 @@
                     Size = dim2(1, 0, 0, 0);
                     AutomaticSize = Enum.AutomaticSize.Y;
                     BorderSizePixel = 0;
-                    BackgroundColor3 = rgb(25, 25, 29)
+                    BackgroundColor3 = rgb(25, 25, 29);
+                    ClipsDescendants = true
                 });
 
                 library:create( "UICorner" , {
@@ -1879,14 +1910,13 @@
                         FontFace = fonts.small;
                         TextColor3 = rgb(245, 245, 245);
                         BorderColor3 = rgb(0, 0, 0);
-                        Text = "Dropdown";
+                        Text = cfg.name or "Dropdown";
                         Parent = items[ "dropdown_object" ];
                         Name = "\0";
-                        Size = dim2(1, 0, 0, 0);
+                        Size = dim2(1, 0, 0, 18);
                         BackgroundTransparency = 1;
                         TextXAlignment = Enum.TextXAlignment.Left;
                         BorderSizePixel = 0;
-                        AutomaticSize = Enum.AutomaticSize.XY;
                         TextSize = 16;
                         BackgroundColor3 = rgb(255, 255, 255)
                     });
@@ -1941,11 +1971,10 @@
                         BorderColor3 = rgb(0, 0, 0);
                         Text = "";
                         AutoButtonColor = false;
-                        AnchorPoint = vec2(1, 0);
-                        Parent = items[ "right_components" ];
+                        Parent = items[ "dropdown_object" ];
                         Name = "\0";
-                        Position = dim2(1, 0, 0, 0);
-                        Size = dim2(0, cfg.width, 0, 30);
+                        Position = dim2(0, 5, 0, 22);
+                        Size = dim2(1, -10, 0, 30);
                         BorderSizePixel = 0;
                         TextSize = 14;
                         BackgroundColor3 = rgb(33, 33, 35)
