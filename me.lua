@@ -2097,25 +2097,7 @@ local Library do
                     ApplyStrokeMode = Enum.ApplyStrokeMode.Border
                 }):AddToTheme({Color = "Border"})
                 
-                -- Logo Image
-                Items["Logo"] = Instances:Create("ImageLabel", {
-                    Parent = Items["Title"].Instance,
-                    Name = "\0",
-                    AnchorPoint = Vector2New(0, 0.5),
-                    Position = UDim2New(0, IsMobile and 6 or 10, 0.5, 0),
-                    BorderColor3 = FromRGB(0, 0, 0),
-                    Size = UDim2New(0, IsMobile and 36 or 40, 0, IsMobile and 36 or 40),
-                    BorderSizePixel = 0,
-                    BackgroundTransparency = 1,
-                    Image = "rbxassetid://144268413",
-                    BackgroundColor3 = FromRGB(255, 255, 255)
-                })
-                
-                Instances:Create("UICorner", {
-                    Parent = Items["Logo"].Instance,
-                    Name = "\0",
-                    CornerRadius = UDimNew(0, 7)
-                })
+                -- Logo Image removed
                 
                 Items["RealTitle"] = Instances:Create("TextLabel", {
                     Parent = Items["Title"].Instance,
@@ -2126,7 +2108,7 @@ local Library do
                     Text = Window.Name,
                     Size = UDim2New(0, 0, 0, 15),
                     BackgroundTransparency = 1,
-                    Position = UDim2New(0, IsMobile and 48 or 58, 0, IsMobile and 12 or 14),
+                    Position = UDim2New(0, IsMobile and 6 or 10, 0, IsMobile and 12 or 14),
                     BorderSizePixel = 0,
                     AutomaticSize = Enum.AutomaticSize.X,
                     TextSize = IsMobile and 12 or 14,
