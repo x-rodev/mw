@@ -2016,9 +2016,9 @@ local Library do
             local Items = { } do
                 local FirstLetterOfName = StringSub(Window.Name, 1, 1)
                 
-                -- Adjust size for mobile - keep original size so everything fits nicely
-                local WindowWidth = IsMobile and 600 or 798
-                local WindowHeight = IsMobile and 450 or 599
+                -- Adjust size for mobile - make it much smaller to fit phone screens
+                local WindowWidth = IsMobile and 380 or 798
+                local WindowHeight = IsMobile and 320 or 599
                 
                 Items["MainFrame"] = Instances:Create("Frame", {
                     Parent = Library.Holder.Instance,
@@ -2031,10 +2031,13 @@ local Library do
                     BackgroundColor3 = FromRGB(16, 18, 18)
                 })  Items["MainFrame"]:AddToTheme({BackgroundColor3 = "Background"})
 
-                Items["MainFrame"]:MakeDraggable()
+                -- Only allow dragging on MainFrame for PC
+                if not IsMobile then
+                    Items["MainFrame"]:MakeDraggable()
+                end
                 -- Set minimum resize to match initial window size so everything fits properly
-                local MinWidth = IsMobile and 600 or 798
-                local MinHeight = IsMobile and 450 or 599
+                local MinWidth = IsMobile and 380 or 798
+                local MinHeight = IsMobile and 320 or 599
                 Items["MainFrame"]:MakeResizeable(Vector2New(MinWidth, MinHeight), Vector2New(9999, 9999))
                 
                 Instances:Create("UICorner", {
@@ -2048,17 +2051,22 @@ local Library do
                     Name = "\0",
                     BackgroundTransparency = 1,
                     BorderColor3 = FromRGB(0, 0, 0),
-                    Size = UDim2New(0, IsMobile and 180 or 215, 1, 0),
+                    Size = UDim2New(0, IsMobile and 115 or 215, 1, 0),
                     BorderSizePixel = 0,
                     BackgroundColor3 = FromRGB(255, 255, 255)
                 })
                 
+                -- Make Side draggable for mobile users
+                if IsMobile then
+                    Items["Side"]:MakeDraggable()
+                end
+                
                 Items["Title"] = Instances:Create("Frame", {
                     Parent = Items["Side"].Instance,
                     Name = "\0",
-                    Position = UDim2New(0, 6, 0, 6),
+                    Position = UDim2New(0, IsMobile and 3 or 6, 0, IsMobile and 3 or 6),
                     BorderColor3 = FromRGB(0, 0, 0),
-                    Size = UDim2New(1, -12, 0, 60),
+                    Size = UDim2New(1, IsMobile and -6 or -12, 0, IsMobile and 45 or 60),
                     BorderSizePixel = 0,
                     BackgroundColor3 = FromRGB(21, 24, 24)
                 })  Items["Title"]:AddToTheme({BackgroundColor3 = "Inline"})
@@ -2081,12 +2089,12 @@ local Library do
                     Parent = Items["Title"].Instance,
                     Name = "\0",
                     AnchorPoint = Vector2New(0, 0.5),
-                    Position = UDim2New(0, 10, 0.5, 0),
+                    Position = UDim2New(0, IsMobile and 5 or 10, 0.5, 0),
                     BorderColor3 = FromRGB(0, 0, 0),
-                    Size = UDim2New(0, 40, 0, 40),
+                    Size = UDim2New(0, IsMobile and 28 or 40, 0, IsMobile and 28 or 40),
                     BorderSizePixel = 0,
                     BackgroundTransparency = 1,
-                    Image = "rbxassetid://0",
+                    Image = "rbxassetid://144268413",
                     BackgroundColor3 = FromRGB(255, 255, 255)
                 })
                 
@@ -2105,10 +2113,10 @@ local Library do
                     Text = Window.Name,
                     Size = UDim2New(0, 0, 0, 15),
                     BackgroundTransparency = 1,
-                    Position = UDim2New(0, 58, 0, 14),
+                    Position = UDim2New(0, IsMobile and 38 or 58, 0, IsMobile and 8 or 14),
                     BorderSizePixel = 0,
                     AutomaticSize = Enum.AutomaticSize.X,
-                    TextSize = IsMobile and 12 or 14,
+                    TextSize = IsMobile and 10 or 14,
                     BackgroundColor3 = FromRGB(255, 255, 255)
                 })  
                 
@@ -2122,10 +2130,10 @@ local Library do
                     Size = UDim2New(0, 0, 0, 15),
                     BorderSizePixel = 0,
                     BackgroundTransparency = 1,
-                    Position = UDim2New(0, 58, 0, 30),
+                    Position = UDim2New(0, IsMobile and 38 or 58, 0, IsMobile and 22 or 30),
                     BorderColor3 = FromRGB(0, 0, 0),
                     AutomaticSize = Enum.AutomaticSize.X,
-                    TextSize = IsMobile and 12 or 14,
+                    TextSize = IsMobile and 9 or 14,
                     BackgroundColor3 = FromRGB(255, 255, 255)
                 })
                 
@@ -2235,9 +2243,9 @@ local Library do
                 Items["Content"] = Instances:Create("Frame", {
                     Parent = Items["MainFrame"].Instance,
                     Name = "\0",
-                    Position = UDim2New(0, IsMobile and 185 or 220, 0, 6),
+                    Position = UDim2New(0, IsMobile and 120 or 220, 0, IsMobile and 3 or 6),
                     BorderColor3 = FromRGB(0, 0, 0),
-                    Size = UDim2New(1, IsMobile and -191 or -226, 1, -12),
+                    Size = UDim2New(1, IsMobile and -123 or -226, 1, IsMobile and -6 or -12),
                     BorderSizePixel = 0,
                     BackgroundColor3 = FromRGB(21, 24, 24)
                 })  Items["Content"]:AddToTheme({BackgroundColor3 = "Inline"})
@@ -2259,9 +2267,9 @@ local Library do
                     Parent = Items["Side"].Instance,
                     Name = "\0",
                     AnchorPoint = Vector2New(0, 1),
-                    Position = UDim2New(0, 6, 1, -6),
+                    Position = UDim2New(0, IsMobile and 3 or 6, 1, IsMobile and -3 or -6),
                     BorderColor3 = FromRGB(0, 0, 0),
-                    Size = UDim2New(1, -12, 0, 45),
+                    Size = UDim2New(1, IsMobile and -6 or -12, 0, IsMobile and 38 or 45),
                     BorderSizePixel = 0,
                     BackgroundColor3 = FromRGB(21, 24, 24)
                 })  Items["Bottom_"]:AddToTheme({BackgroundColor3 = "Inline"})
@@ -2287,8 +2295,8 @@ local Library do
                     AnchorPoint = Vector2New(0, 0.5),
                     Image = Players:GetUserThumbnailAsync(LocalPlayer.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100),
                     BackgroundTransparency = 1,
-                    Position = UDim2New(0, 8, 0.5, 0),
-                    Size = UDim2New(0, 35, 0, 35),
+                    Position = UDim2New(0, IsMobile and 4 or 8, 0.5, 0),
+                    Size = UDim2New(0, IsMobile and 28 or 35, 0, IsMobile and 28 or 35),
                     BorderSizePixel = 0,
                     BackgroundColor3 = FromRGB(255, 255, 255)
                 })
@@ -2306,11 +2314,11 @@ local Library do
                     TextColor3 = FromRGB(255, 255, 255),
                     BorderColor3 = FromRGB(0, 0, 0),
                     Text = LocalPlayer.Name,
-                    Size = UDim2New(1, -50, 0, 13),
+                    Size = UDim2New(1, IsMobile and -35 or -50, 0, IsMobile and 11 or 13),
                     BackgroundTransparency = 1,
-                    Position = UDim2New(0, 48, 0, 8),
+                    Position = UDim2New(0, IsMobile and 36 or 48, 0, IsMobile and 6 or 8),
                     BorderSizePixel = 0,
-                    TextSize = 12,
+                    TextSize = IsMobile and 9 or 12,
                     TextXAlignment = Enum.TextXAlignment.Left,
                     TextTruncate = Enum.TextTruncate.AtEnd,
                     BackgroundColor3 = FromRGB(255, 255, 255)
@@ -2323,11 +2331,11 @@ local Library do
                     TextColor3 = FromRGB(150, 150, 150),
                     BorderColor3 = FromRGB(0, 0, 0),
                     Text = LocalPlayer.DisplayName,
-                    Size = UDim2New(1, -50, 0, 12),
+                    Size = UDim2New(1, IsMobile and -35 or -50, 0, IsMobile and 10 or 12),
                     BackgroundTransparency = 1,
-                    Position = UDim2New(0, 48, 0, 24),
+                    Position = UDim2New(0, IsMobile and 36 or 48, 0, IsMobile and 20 or 24),
                     BorderSizePixel = 0,
-                    TextSize = 11,
+                    TextSize = IsMobile and 8 or 11,
                     TextXAlignment = Enum.TextXAlignment.Left,
                     TextTruncate = Enum.TextTruncate.AtEnd,
                     BackgroundColor3 = FromRGB(255, 255, 255)
