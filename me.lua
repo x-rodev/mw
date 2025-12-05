@@ -430,23 +430,15 @@ local Library do
                         end
                     end)
                 elseif Input.UserInputType == Enum.UserInputType.Touch then
-                    -- Touch - check if actually touching the UI
+                    -- Touch - allow dragging from anywhere
                     local touchPos = Input.Position
                     local guiObjects = game:GetService("Players").LocalPlayer.PlayerGui:GetGuiObjectsAtPosition(touchPos.X, touchPos.Y)
                     
-                    local isTouchingUI = false
+                    -- Check if touching interactive elements
                     for _, obj in ipairs(guiObjects) do
-                        if obj:IsDescendantOf(Gui) then
-                            isTouchingUI = true
-                            if IsInteractiveElement(obj) then
-                                return
-                            end
-                            break
+                        if IsInteractiveElement(obj) then
+                            return
                         end
-                    end
-                    
-                    if not isTouchingUI then
-                        return -- Not touching the UI, don't drag
                     end
 
                     DragStart = Input.Position
@@ -2087,7 +2079,7 @@ local Library do
                     Size = UDim2New(0, IsMobile and 36 or 40, 0, IsMobile and 36 or 40),
                     BorderSizePixel = 0,
                     BackgroundTransparency = 1,
-                    Image = "http://www.roblox.com/asset/?id=144268413",
+                    Image = "rbxassetid://144268413",
                     BackgroundColor3 = FromRGB(255, 255, 255)
                 })
                 
