@@ -401,16 +401,52 @@ local Library do
             local InputChanged
 
             self:Connect("InputBegan", function(Input)
-                if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
-                    -- Get the GUI object under the mouse/touch
+                if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    -- PC Mouse click only
                     local mousePos = Input.Position
                     local guiObjects = game:GetService("Players").LocalPlayer.PlayerGui:GetGuiObjectsAtPosition(mousePos.X, mousePos.Y)
                     
-                    -- Check if we're clicking on an interactive element
                     for _, obj in ipairs(guiObjects) do
                         if IsInteractiveElement(obj) then
-                            return -- Don't start dragging
+                            return
                         end
+                    end
+
+                    DragStart = Input.Position
+                    StartPosition = Gui.Position
+                    HasMovedEnough = false
+
+                    if InputChanged then 
+                        return
+                    end
+
+                    InputChanged = Input.Changed:Connect(function()
+                        if Input.UserInputState == Enum.UserInputState.End then
+                            Dragging = false
+                            HasMovedEnough = false
+
+                            InputChanged:Disconnect()
+                            InputChanged = nil
+                        end
+                    end)
+                elseif Input.UserInputType == Enum.UserInputType.Touch then
+                    -- Touch - check if actually touching the UI
+                    local touchPos = Input.Position
+                    local guiObjects = game:GetService("Players").LocalPlayer.PlayerGui:GetGuiObjectsAtPosition(touchPos.X, touchPos.Y)
+                    
+                    local isTouchingUI = false
+                    for _, obj in ipairs(guiObjects) do
+                        if obj:IsDescendantOf(Gui) then
+                            isTouchingUI = true
+                            if IsInteractiveElement(obj) then
+                                return
+                            end
+                            break
+                        end
+                    end
+                    
+                    if not isTouchingUI then
+                        return -- Not touching the UI, don't drag
                     end
 
                     DragStart = Input.Position
@@ -434,7 +470,8 @@ local Library do
             end)
 
             Library:Connect(UserInputService.InputChanged, function(Input)
-                if Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch then
+                if Input.UserInputType == Enum.UserInputType.MouseMovement then
+                    -- PC mouse movement
                     if DragStart and not Dragging then
                         local delta = (Input.Position - DragStart).Magnitude
                         if delta > DragThreshold then
@@ -445,6 +482,21 @@ local Library do
                     
                     if Dragging and HasMovedEnough then
                         Set(Input)
+                    end
+                elseif Input.UserInputType == Enum.UserInputType.Touch then
+                    -- Touch movement - only if we already started dragging
+                    if DragStart then
+                        if not Dragging then
+                            local delta = (Input.Position - DragStart).Magnitude
+                            if delta > DragThreshold then
+                                Dragging = true
+                                HasMovedEnough = true
+                            end
+                        end
+                        
+                        if Dragging and HasMovedEnough then
+                            Set(Input)
+                        end
                     end
                 end
             end)
