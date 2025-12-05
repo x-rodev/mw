@@ -370,8 +370,9 @@ local Library do
             local Dragging = false 
             local DragStart
             local StartPosition
-            local DragThreshold = IsMobile and 20 or 5
+            local DragThreshold = IsMobile and 30 or 5
             local HasMovedEnough = false
+            local ActiveInput = nil
 
             local Set = function(Input)
                 local DragDelta = Input.Position - DragStart
@@ -397,12 +398,26 @@ local Library do
                 
                 return false
             end
+            
+            local function IsTouchingUI(position)
+                local guiObjects = game:GetService("Players").LocalPlayer.PlayerGui:GetGuiObjectsAtPosition(position.X, position.Y)
+                for _, obj in ipairs(guiObjects) do
+                    if obj:IsDescendantOf(Gui) then
+                        return true
+                    end
+                end
+                return false
+            end
 
             local InputChanged
 
             self:Connect("InputBegan", function(Input)
                 if Input.UserInputType == Enum.UserInputType.MouseButton1 then
-                    -- PC Mouse click only
+                    -- PC Mouse click - must be on UI
+                    if not IsTouchingUI(Input.Position) then
+                        return
+                    end
+                    
                     local mousePos = Input.Position
                     local guiObjects = game:GetService("Players").LocalPlayer.PlayerGui:GetGuiObjectsAtPosition(mousePos.X, mousePos.Y)
                     
@@ -412,6 +427,7 @@ local Library do
                         end
                     end
 
+                    ActiveInput = Input
                     DragStart = Input.Position
                     StartPosition = Gui.Position
                     HasMovedEnough = false
@@ -424,13 +440,18 @@ local Library do
                         if Input.UserInputState == Enum.UserInputState.End then
                             Dragging = false
                             HasMovedEnough = false
+                            ActiveInput = nil
 
                             InputChanged:Disconnect()
                             InputChanged = nil
                         end
                     end)
                 elseif Input.UserInputType == Enum.UserInputType.Touch then
-                    -- Touch - allow dragging from anywhere
+                    -- Touch - must be on UI
+                    if not IsTouchingUI(Input.Position) then
+                        return
+                    end
+                    
                     local touchPos = Input.Position
                     local guiObjects = game:GetService("Players").LocalPlayer.PlayerGui:GetGuiObjectsAtPosition(touchPos.X, touchPos.Y)
                     
@@ -441,6 +462,7 @@ local Library do
                         end
                     end
 
+                    ActiveInput = Input
                     DragStart = Input.Position
                     StartPosition = Gui.Position
                     HasMovedEnough = false
@@ -453,6 +475,7 @@ local Library do
                         if Input.UserInputState == Enum.UserInputState.End then
                             Dragging = false
                             HasMovedEnough = false
+                            ActiveInput = nil
 
                             InputChanged:Disconnect()
                             InputChanged = nil
@@ -462,6 +485,11 @@ local Library do
             end)
 
             Library:Connect(UserInputService.InputChanged, function(Input)
+                -- Only process movement if this is the same input that started the drag
+                if not ActiveInput or ActiveInput ~= Input then
+                    return
+                end
+                
                 if Input.UserInputType == Enum.UserInputType.MouseMovement then
                     -- PC mouse movement
                     if DragStart and not Dragging then
@@ -476,7 +504,7 @@ local Library do
                         Set(Input)
                     end
                 elseif Input.UserInputType == Enum.UserInputType.Touch then
-                    -- Touch movement - only if we already started dragging
+                    -- Touch movement
                     if DragStart then
                         if not Dragging then
                             local delta = (Input.Position - DragStart).Magnitude
