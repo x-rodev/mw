@@ -369,7 +369,9 @@ local Library do
 
             local Dragging = false 
             local DragStart
-            local StartPosition 
+            local StartPosition
+            local DragThreshold = IsMobile and 20 or 5
+            local HasMovedEnough = false
 
             local Set = function(Input)
                 local DragDelta = Input.Position - DragStart
@@ -411,10 +413,9 @@ local Library do
                         end
                     end
 
-                    Dragging = true
-
                     DragStart = Input.Position
                     StartPosition = Gui.Position
+                    HasMovedEnough = false
 
                     if InputChanged then 
                         return
@@ -423,6 +424,7 @@ local Library do
                     InputChanged = Input.Changed:Connect(function()
                         if Input.UserInputState == Enum.UserInputState.End then
                             Dragging = false
+                            HasMovedEnough = false
 
                             InputChanged:Disconnect()
                             InputChanged = nil
@@ -433,7 +435,15 @@ local Library do
 
             Library:Connect(UserInputService.InputChanged, function(Input)
                 if Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch then
-                    if Dragging then
+                    if DragStart and not Dragging then
+                        local delta = (Input.Position - DragStart).Magnitude
+                        if delta > DragThreshold then
+                            Dragging = true
+                            HasMovedEnough = true
+                        end
+                    end
+                    
+                    if Dragging and HasMovedEnough then
                         Set(Input)
                     end
                 end
@@ -2067,17 +2077,18 @@ local Library do
                     BackgroundColor3 = FromRGB(255, 255, 255)
                 })
                 
-                -- Minimize Button (top right)
+                -- Minimize Button (top right corner of MainFrame)
                 Items["MinimizeBtn"] = Instances:Create("TextButton", {
-                    Parent = Items["Title"].Instance,
+                    Parent = Items["MainFrame"].Instance,
                     Name = "\0",
                     Text = "",
                     AutoButtonColor = false,
-                    AnchorPoint = Vector2New(1, 0.5),
-                    Position = UDim2New(1, -35, 0.5, 0),
+                    AnchorPoint = Vector2New(1, 0),
+                    Position = UDim2New(1, -35, 0, 8),
                     Size = UDim2New(0, 22, 0, 22),
                     BorderSizePixel = 0,
-                    BackgroundColor3 = FromRGB(30, 34, 34)
+                    BackgroundColor3 = FromRGB(30, 34, 34),
+                    ZIndex = 10
                 })  Items["MinimizeBtn"]:AddToTheme({BackgroundColor3 = "Element"})
                 
                 Instances:Create("UICorner", {
@@ -2086,17 +2097,18 @@ local Library do
                     CornerRadius = UDimNew(1, 0)
                 })
                 
-                -- Close Button (top right)
+                -- Close Button (top right corner of MainFrame)
                 Items["CloseBtn"] = Instances:Create("TextButton", {
-                    Parent = Items["Title"].Instance,
+                    Parent = Items["MainFrame"].Instance,
                     Name = "\0",
                     Text = "",
                     AutoButtonColor = false,
-                    AnchorPoint = Vector2New(1, 0.5),
-                    Position = UDim2New(1, -8, 0.5, 0),
+                    AnchorPoint = Vector2New(1, 0),
+                    Position = UDim2New(1, -8, 0, 8),
                     Size = UDim2New(0, 22, 0, 22),
                     BorderSizePixel = 0,
-                    BackgroundColor3 = FromRGB(30, 34, 34)
+                    BackgroundColor3 = FromRGB(30, 34, 34),
+                    ZIndex = 10
                 })  Items["CloseBtn"]:AddToTheme({BackgroundColor3 = "Element"})
                 
                 Instances:Create("UICorner", {
@@ -2105,15 +2117,42 @@ local Library do
                     CornerRadius = UDimNew(1, 0)
                 })
                 
+                local minimizeTouchStart = nil
+                local closeTouchStart = nil
+                
                 Items["MinimizeBtn"]:Connect("InputBegan", function(Input)
-                    if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+                    if Input.UserInputType == Enum.UserInputType.MouseButton1 then
                         Window:SetOpen(false)
+                    elseif Input.UserInputType == Enum.UserInputType.Touch then
+                        minimizeTouchStart = Input.Position
+                    end
+                end)
+                
+                Items["MinimizeBtn"]:Connect("InputEnded", function(Input)
+                    if Input.UserInputType == Enum.UserInputType.Touch and minimizeTouchStart then
+                        local delta = (Input.Position - minimizeTouchStart).Magnitude
+                        if delta < 10 then
+                            Window:SetOpen(false)
+                        end
+                        minimizeTouchStart = nil
                     end
                 end)
                 
                 Items["CloseBtn"]:Connect("InputBegan", function(Input)
-                    if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+                    if Input.UserInputType == Enum.UserInputType.MouseButton1 then
                         Library:Unload()
+                    elseif Input.UserInputType == Enum.UserInputType.Touch then
+                        closeTouchStart = Input.Position
+                    end
+                end)
+                
+                Items["CloseBtn"]:Connect("InputEnded", function(Input)
+                    if Input.UserInputType == Enum.UserInputType.Touch and closeTouchStart then
+                        local delta = (Input.Position - closeTouchStart).Magnitude
+                        if delta < 10 then
+                            Library:Unload()
+                        end
+                        closeTouchStart = nil
                     end
                 end)
                 
@@ -2242,43 +2281,57 @@ local Library do
                     BackgroundColor3 = FromRGB(255, 255, 255)
                 })
                 
-                -- Mobile toggle button - left middle of screen
-                Items["MobileToggle"] = Instances:Create("TextButton", {
-                    Parent = Library.Holder.Instance,
-                    Name = "\0",
-                    FontFace = Library.Font,
-                    TextColor3 = FromRGB(255, 255, 255),
-                    BorderColor3 = FromRGB(0, 0, 0),
-                    Text = "☰",
-                    AutoButtonColor = false,
-                    AnchorPoint = Vector2New(0, 0.5),
-                    Position = UDim2New(0, 5, 0.5, 0),
-                    Size = UDim2New(0, 35, 0, 35),
-                    BorderSizePixel = 0,
-                    TextSize = 18,
-                    BackgroundColor3 = FromRGB(21, 24, 24),
-                    ZIndex = 999
-                })  Items["MobileToggle"]:AddToTheme({BackgroundColor3 = "Inline"})
-                
-                Instances:Create("UICorner", {
-                    Parent = Items["MobileToggle"].Instance,
-                    Name = "\0",
-                    CornerRadius = UDimNew(1, 0)
-                })
-                
-                Instances:Create("UIStroke", {
-                    Parent = Items["MobileToggle"].Instance,
-                    Name = "\0",
-                    Color = FromRGB(30, 33, 33),
-                    ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-                    Thickness = 2
-                }):AddToTheme({Color = "Border"})
-                
-                Items["MobileToggle"]:Connect("InputBegan", function(Input)
-                    if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
-                        Window:SetOpen(not Window.IsOpen)
-                    end
-                end)
+                -- Mobile toggle button - only show on mobile devices
+                if IsMobile then
+                    Items["MobileToggle"] = Instances:Create("TextButton", {
+                        Parent = Library.Holder.Instance,
+                        Name = "\0",
+                        FontFace = Library.Font,
+                        TextColor3 = FromRGB(255, 255, 255),
+                        BorderColor3 = FromRGB(0, 0, 0),
+                        Text = "☰",
+                        AutoButtonColor = false,
+                        AnchorPoint = Vector2New(0, 0.5),
+                        Position = UDim2New(0, 5, 0.5, 0),
+                        Size = UDim2New(0, 35, 0, 35),
+                        BorderSizePixel = 0,
+                        TextSize = 18,
+                        BackgroundColor3 = FromRGB(21, 24, 24),
+                        ZIndex = 999
+                    })  Items["MobileToggle"]:AddToTheme({BackgroundColor3 = "Inline"})
+                    
+                    Instances:Create("UICorner", {
+                        Parent = Items["MobileToggle"].Instance,
+                        Name = "\0",
+                        CornerRadius = UDimNew(1, 0)
+                    })
+                    
+                    Instances:Create("UIStroke", {
+                        Parent = Items["MobileToggle"].Instance,
+                        Name = "\0",
+                        Color = FromRGB(30, 33, 33),
+                        ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                        Thickness = 2
+                    }):AddToTheme({Color = "Border"})
+                    
+                    local toggleTouchStart = nil
+                    
+                    Items["MobileToggle"]:Connect("InputBegan", function(Input)
+                        if Input.UserInputType == Enum.UserInputType.Touch then
+                            toggleTouchStart = Input.Position
+                        end
+                    end)
+                    
+                    Items["MobileToggle"]:Connect("InputEnded", function(Input)
+                        if Input.UserInputType == Enum.UserInputType.Touch and toggleTouchStart then
+                            local delta = (Input.Position - toggleTouchStart).Magnitude
+                            if delta < 15 then
+                                Window:SetOpen(not Window.IsOpen)
+                            end
+                            toggleTouchStart = nil
+                        end
+                    end)
+                end
 
                 Window.Items = Items
             end
