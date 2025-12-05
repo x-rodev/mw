@@ -2023,8 +2023,7 @@ local Library do
                     BackgroundColor3 = FromRGB(16, 18, 18)
                 })  Items["MainFrame"]:AddToTheme({BackgroundColor3 = "Background"})
 
-                -- Allow dragging on MainFrame for both PC and mobile
-                Items["MainFrame"]:MakeDraggable()
+                -- Dragging disabled
                 -- Set minimum resize to match initial window size so everything fits properly
                 local MinWidth = IsMobile and 500 or 798
                 local MinHeight = IsMobile and 400 or 599
