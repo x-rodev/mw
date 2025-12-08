@@ -1,6 +1,6 @@
--- Modern UI Library
--- A fresh, mobile-friendly UI library with left-side tabs
--- Version 1.0
+-- Sev UI Library
+-- Premium black theme with clean design
+-- Created by: Sev | Version 3.0
 
 local ModernUI = {}
 local TweenService = game:GetService("TweenService")
@@ -83,20 +83,21 @@ end
 -- Main Library Functions
 function ModernUI.CreateWindow(options)
     options = options or {}
-    local WindowName = options.Name or "Modern UI"
+    local WindowName = options.Name or "Sev UI"
     local WindowIcon = options.Icon or "rbxassetid://7733955511"
+    local WindowSize = options.Size or {Width = 700, Height = 500}
     local Theme = options.Theme or {
-        Primary = Color3.fromRGB(45, 45, 55),
-        Secondary = Color3.fromRGB(35, 35, 45),
-        Accent = Color3.fromRGB(138, 43, 226),
+        Primary = Color3.fromRGB(0, 0, 0),
+        Secondary = Color3.fromRGB(0, 0, 0),
+        Accent = Color3.fromRGB(255, 255, 255),
         Text = Color3.fromRGB(255, 255, 255),
-        SubText = Color3.fromRGB(200, 200, 200),
-        Background = Color3.fromRGB(25, 25, 35),
-        Border = Color3.fromRGB(60, 60, 70)
+        SubText = Color3.fromRGB(180, 180, 180),
+        Background = Color3.fromRGB(0, 0, 0),
+        Border = Color3.fromRGB(255, 255, 255)
     }
     
     local ScreenGui = Instance.new("ScreenGui")
-    ScreenGui.Name = "ModernUI"
+    ScreenGui.Name = "SevUI"
     ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     ScreenGui.ResetOnSpawn = false
     
@@ -112,21 +113,21 @@ function ModernUI.CreateWindow(options)
     -- Main Container
     local MainFrame = Instance.new("Frame")
     MainFrame.Name = "MainFrame"
-    MainFrame.Size = UDim2.new(0, 700, 0, 500)
-    MainFrame.Position = UDim2.new(0.5, -350, 0.5, -250)
+    MainFrame.Size = UDim2.new(0, WindowSize.Width, 0, WindowSize.Height)
+    MainFrame.Position = UDim2.new(0.5, -WindowSize.Width/2, 0.5, -WindowSize.Height/2)
     MainFrame.BackgroundColor3 = Theme.Background
     MainFrame.BorderSizePixel = 0
     MainFrame.ClipsDescendants = true
     MainFrame.Parent = ScreenGui
     
     local MainCorner = Instance.new("UICorner")
-    MainCorner.CornerRadius = UDim.new(0, 12)
+    MainCorner.CornerRadius = UDim.new(0, 8)
     MainCorner.Parent = MainFrame
     
     local MainStroke = Instance.new("UIStroke")
     MainStroke.Color = Theme.Border
-    MainStroke.Thickness = 1.5
-    MainStroke.Transparency = 0.5
+    MainStroke.Thickness = 2
+    MainStroke.Transparency = 0
     MainStroke.Parent = MainFrame
     
     -- Drop Shadow
@@ -188,10 +189,10 @@ function ModernUI.CreateWindow(options)
     -- Close Button
     local CloseButton = Instance.new("TextButton")
     CloseButton.Name = "CloseButton"
-    CloseButton.Size = UDim2.new(0, 28, 0, 28)
-    CloseButton.Position = UDim2.new(1, -35, 0.5, -14)
-    CloseButton.BackgroundColor3 = Color3.fromRGB(220, 50, 50)
-    CloseButton.Text = "✕"
+    CloseButton.Size = UDim2.new(0, 24, 0, 24)
+    CloseButton.Position = UDim2.new(1, -32, 0.5, -12)
+    CloseButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    CloseButton.Text = ""
     CloseButton.TextColor3 = Theme.Text
     CloseButton.TextSize = 16
     CloseButton.Font = Enum.Font.GothamBold
@@ -203,11 +204,11 @@ function ModernUI.CreateWindow(options)
     CloseCorner.CornerRadius = UDim.new(1, 0)
     CloseCorner.Parent = CloseButton
     
-    local CloseShadow = Instance.new("UIStroke")
-    CloseShadow.Color = Color3.fromRGB(0, 0, 0)
-    CloseShadow.Thickness = 1
-    CloseShadow.Transparency = 0.7
-    CloseShadow.Parent = CloseButton
+    local CloseStroke = Instance.new("UIStroke")
+    CloseStroke.Color = Color3.fromRGB(255, 255, 255)
+    CloseStroke.Thickness = 2
+    CloseStroke.Transparency = 0
+    CloseStroke.Parent = CloseButton
     
     CloseButton.MouseButton1Click:Connect(function()
         Tween(MainFrame, {Size = UDim2.new(0, 0, 0, 0)}, 0.3)
@@ -216,20 +217,20 @@ function ModernUI.CreateWindow(options)
     end)
     
     CloseButton.MouseEnter:Connect(function()
-        Tween(CloseButton, {BackgroundColor3 = Color3.fromRGB(255, 70, 70)}, 0.2)
+        Tween(CloseButton, {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}, 0.2)
     end)
     
     CloseButton.MouseLeave:Connect(function()
-        Tween(CloseButton, {BackgroundColor3 = Color3.fromRGB(220, 50, 50)}, 0.2)
+        Tween(CloseButton, {BackgroundColor3 = Color3.fromRGB(0, 0, 0)}, 0.2)
     end)
     
     -- Minimize Button
     local MinimizeButton = Instance.new("TextButton")
     MinimizeButton.Name = "MinimizeButton"
-    MinimizeButton.Size = UDim2.new(0, 28, 0, 28)
-    MinimizeButton.Position = UDim2.new(1, -68, 0.5, -14)
-    MinimizeButton.BackgroundColor3 = Color3.fromRGB(100, 100, 110)
-    MinimizeButton.Text = "─"
+    MinimizeButton.Size = UDim2.new(0, 24, 0, 24)
+    MinimizeButton.Position = UDim2.new(1, -62, 0.5, -12)
+    MinimizeButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    MinimizeButton.Text = ""
     MinimizeButton.TextColor3 = Theme.Text
     MinimizeButton.TextSize = 16
     MinimizeButton.Font = Enum.Font.GothamBold
@@ -241,30 +242,28 @@ function ModernUI.CreateWindow(options)
     MinimizeCorner.CornerRadius = UDim.new(1, 0)
     MinimizeCorner.Parent = MinimizeButton
     
-    local MinimizeShadow = Instance.new("UIStroke")
-    MinimizeShadow.Color = Color3.fromRGB(0, 0, 0)
-    MinimizeShadow.Thickness = 1
-    MinimizeShadow.Transparency = 0.7
-    MinimizeShadow.Parent = MinimizeButton
+    local MinimizeStroke = Instance.new("UIStroke")
+    MinimizeStroke.Color = Color3.fromRGB(255, 255, 255)
+    MinimizeStroke.Thickness = 2
+    MinimizeStroke.Transparency = 0
+    MinimizeStroke.Parent = MinimizeButton
     
     local Minimized = false
     MinimizeButton.MouseButton1Click:Connect(function()
         Minimized = not Minimized
         if Minimized then
-            Tween(MainFrame, {Size = UDim2.new(0, 700, 0, 50)}, 0.3)
-            MinimizeButton.Text = "□"
+            Tween(MainFrame, {Size = UDim2.new(0, WindowSize.Width, 0, 50)}, 0.3)
         else
-            Tween(MainFrame, {Size = UDim2.new(0, 700, 0, 500)}, 0.3)
-            MinimizeButton.Text = "─"
+            Tween(MainFrame, {Size = UDim2.new(0, WindowSize.Width, 0, WindowSize.Height)}, 0.3)
         end
     end)
     
     MinimizeButton.MouseEnter:Connect(function()
-        Tween(MinimizeButton, {BackgroundColor3 = Color3.fromRGB(120, 120, 130)}, 0.2)
+        Tween(MinimizeButton, {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}, 0.2)
     end)
     
     MinimizeButton.MouseLeave:Connect(function()
-        Tween(MinimizeButton, {BackgroundColor3 = Color3.fromRGB(100, 100, 110)}, 0.2)
+        Tween(MinimizeButton, {BackgroundColor3 = Color3.fromRGB(0, 0, 0)}, 0.2)
     end)
     
     -- Player Info (Bottom Left)
@@ -392,21 +391,13 @@ function ModernUI.CreateWindow(options)
         TabButton.Parent = TabContainer
         
         local TabButtonCorner = Instance.new("UICorner")
-        TabButtonCorner.CornerRadius = UDim.new(0, 10)
+        TabButtonCorner.CornerRadius = UDim.new(0, 8)
         TabButtonCorner.Parent = TabButton
-        
-        local TabButtonGradient = Instance.new("UIGradient")
-        TabButtonGradient.Color = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(40, 40, 50)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(30, 30, 40))
-        })
-        TabButtonGradient.Rotation = 90
-        TabButtonGradient.Parent = TabButton
         
         local TabButtonStroke = Instance.new("UIStroke")
         TabButtonStroke.Color = Theme.Border
-        TabButtonStroke.Thickness = 1
-        TabButtonStroke.Transparency = 0.8
+        TabButtonStroke.Thickness = 1.5
+        TabButtonStroke.Transparency = 0
         TabButtonStroke.Parent = TabButton
         
         local TabIconImage = Instance.new("ImageLabel")
@@ -587,21 +578,13 @@ function ModernUI.CreateWindow(options)
                 Button.Parent = SectionContainer
                 
                 local ButtonCorner = Instance.new("UICorner")
-                ButtonCorner.CornerRadius = UDim.new(0, 8)
+                ButtonCorner.CornerRadius = UDim.new(0, 6)
                 ButtonCorner.Parent = Button
-                
-                local ButtonGradient = Instance.new("UIGradient")
-                ButtonGradient.Color = ColorSequence.new({
-                    ColorSequenceKeypoint.new(0, Color3.fromRGB(40, 40, 50)),
-                    ColorSequenceKeypoint.new(1, Color3.fromRGB(30, 30, 40))
-                })
-                ButtonGradient.Rotation = 90
-                ButtonGradient.Parent = Button
                 
                 local ButtonStroke = Instance.new("UIStroke")
                 ButtonStroke.Color = Theme.Border
-                ButtonStroke.Thickness = 1
-                ButtonStroke.Transparency = 0.7
+                ButtonStroke.Thickness = 1.5
+                ButtonStroke.Transparency = 0
                 ButtonStroke.Parent = Button
                 
                 Button.MouseButton1Click:Connect(function()
@@ -634,21 +617,13 @@ function ModernUI.CreateWindow(options)
                 ToggleFrame.Parent = SectionContainer
                 
                 local ToggleCorner = Instance.new("UICorner")
-                ToggleCorner.CornerRadius = UDim.new(0, 8)
+                ToggleCorner.CornerRadius = UDim.new(0, 6)
                 ToggleCorner.Parent = ToggleFrame
-                
-                local ToggleGradient = Instance.new("UIGradient")
-                ToggleGradient.Color = ColorSequence.new({
-                    ColorSequenceKeypoint.new(0, Color3.fromRGB(40, 40, 50)),
-                    ColorSequenceKeypoint.new(1, Color3.fromRGB(30, 30, 40))
-                })
-                ToggleGradient.Rotation = 90
-                ToggleGradient.Parent = ToggleFrame
                 
                 local ToggleStroke = Instance.new("UIStroke")
                 ToggleStroke.Color = Theme.Border
-                ToggleStroke.Thickness = 1
-                ToggleStroke.Transparency = 0.7
+                ToggleStroke.Thickness = 1.5
+                ToggleStroke.Transparency = 0
                 ToggleStroke.Parent = ToggleFrame
                 
                 local ToggleLabel = Instance.new("TextLabel")
@@ -726,21 +701,13 @@ function ModernUI.CreateWindow(options)
                 SliderFrame.Parent = SectionContainer
                 
                 local SliderCorner = Instance.new("UICorner")
-                SliderCorner.CornerRadius = UDim.new(0, 8)
+                SliderCorner.CornerRadius = UDim.new(0, 6)
                 SliderCorner.Parent = SliderFrame
-                
-                local SliderFrameGradient = Instance.new("UIGradient")
-                SliderFrameGradient.Color = ColorSequence.new({
-                    ColorSequenceKeypoint.new(0, Color3.fromRGB(40, 40, 50)),
-                    ColorSequenceKeypoint.new(1, Color3.fromRGB(30, 30, 40))
-                })
-                SliderFrameGradient.Rotation = 90
-                SliderFrameGradient.Parent = SliderFrame
                 
                 local SliderFrameStroke = Instance.new("UIStroke")
                 SliderFrameStroke.Color = Theme.Border
-                SliderFrameStroke.Thickness = 1
-                SliderFrameStroke.Transparency = 0.7
+                SliderFrameStroke.Thickness = 1.5
+                SliderFrameStroke.Transparency = 0
                 SliderFrameStroke.Parent = SliderFrame
                 
                 local SliderLabel = Instance.new("TextLabel")
@@ -785,17 +752,6 @@ function ModernUI.CreateWindow(options)
                 local SliderFillCorner = Instance.new("UICorner")
                 SliderFillCorner.CornerRadius = UDim.new(1, 0)
                 SliderFillCorner.Parent = SliderFill
-                
-                local SliderGradient = Instance.new("UIGradient")
-                SliderGradient.Color = ColorSequence.new({
-                    ColorSequenceKeypoint.new(0, Theme.Accent),
-                    ColorSequenceKeypoint.new(1, Color3.fromRGB(
-                        math.clamp(Theme.Accent.R * 255 + 30, 0, 255),
-                        math.clamp(Theme.Accent.G * 255 + 30, 0, 255),
-                        math.clamp(Theme.Accent.B * 255 + 30, 0, 255)
-                    ))
-                })
-                SliderGradient.Parent = SliderFill
                 
                 local SliderCircle = Instance.new("Frame")
                 SliderCircle.Size = UDim2.new(0, 16, 0, 16)
@@ -896,21 +852,13 @@ function ModernUI.CreateWindow(options)
                 DropdownFrame.Parent = SectionContainer
                 
                 local DropdownCorner = Instance.new("UICorner")
-                DropdownCorner.CornerRadius = UDim.new(0, 8)
+                DropdownCorner.CornerRadius = UDim.new(0, 6)
                 DropdownCorner.Parent = DropdownFrame
-                
-                local DropdownGradient = Instance.new("UIGradient")
-                DropdownGradient.Color = ColorSequence.new({
-                    ColorSequenceKeypoint.new(0, Color3.fromRGB(40, 40, 50)),
-                    ColorSequenceKeypoint.new(1, Color3.fromRGB(30, 30, 40))
-                })
-                DropdownGradient.Rotation = 90
-                DropdownGradient.Parent = DropdownFrame
                 
                 local DropdownStroke = Instance.new("UIStroke")
                 DropdownStroke.Color = Theme.Border
-                DropdownStroke.Thickness = 1
-                DropdownStroke.Transparency = 0.7
+                DropdownStroke.Thickness = 1.5
+                DropdownStroke.Transparency = 0
                 DropdownStroke.Parent = DropdownFrame
                 
                 local DropdownButton = Instance.new("TextButton")
@@ -1134,21 +1082,13 @@ function ModernUI.CreateWindow(options)
                 PickerFrame.Parent = SectionContainer
                 
                 local PickerCorner = Instance.new("UICorner")
-                PickerCorner.CornerRadius = UDim.new(0, 8)
+                PickerCorner.CornerRadius = UDim.new(0, 6)
                 PickerCorner.Parent = PickerFrame
-                
-                local PickerGradient = Instance.new("UIGradient")
-                PickerGradient.Color = ColorSequence.new({
-                    ColorSequenceKeypoint.new(0, Color3.fromRGB(40, 40, 50)),
-                    ColorSequenceKeypoint.new(1, Color3.fromRGB(30, 30, 40))
-                })
-                PickerGradient.Rotation = 90
-                PickerGradient.Parent = PickerFrame
                 
                 local PickerStroke = Instance.new("UIStroke")
                 PickerStroke.Color = Theme.Border
-                PickerStroke.Thickness = 1
-                PickerStroke.Transparency = 0.7
+                PickerStroke.Thickness = 1.5
+                PickerStroke.Transparency = 0
                 PickerStroke.Parent = PickerFrame
                 
                 local PickerLabel = Instance.new("TextLabel")
@@ -1326,21 +1266,13 @@ function ModernUI.CreateWindow(options)
                 TextBoxFrame.Parent = SectionContainer
                 
                 local TextBoxCorner = Instance.new("UICorner")
-                TextBoxCorner.CornerRadius = UDim.new(0, 8)
+                TextBoxCorner.CornerRadius = UDim.new(0, 6)
                 TextBoxCorner.Parent = TextBoxFrame
-                
-                local TextBoxFrameGradient = Instance.new("UIGradient")
-                TextBoxFrameGradient.Color = ColorSequence.new({
-                    ColorSequenceKeypoint.new(0, Color3.fromRGB(40, 40, 50)),
-                    ColorSequenceKeypoint.new(1, Color3.fromRGB(30, 30, 40))
-                })
-                TextBoxFrameGradient.Rotation = 90
-                TextBoxFrameGradient.Parent = TextBoxFrame
                 
                 local TextBoxFrameStroke = Instance.new("UIStroke")
                 TextBoxFrameStroke.Color = Theme.Border
-                TextBoxFrameStroke.Thickness = 1
-                TextBoxFrameStroke.Transparency = 0.7
+                TextBoxFrameStroke.Thickness = 1.5
+                TextBoxFrameStroke.Transparency = 0
                 TextBoxFrameStroke.Parent = TextBoxFrame
                 
                 local TextBoxLabel = Instance.new("TextLabel")
@@ -1396,7 +1328,7 @@ function ModernUI.CreateWindow(options)
     
     -- Intro Animation
     MainFrame.Size = UDim2.new(0, 0, 0, 0)
-    Tween(MainFrame, {Size = UDim2.new(0, 700, 0, 500)}, 0.5, Enum.EasingStyle.Back)
+    Tween(MainFrame, {Size = UDim2.new(0, WindowSize.Width, 0, WindowSize.Height)}, 0.5, Enum.EasingStyle.Back)
     
     return Window
 end
