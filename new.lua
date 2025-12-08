@@ -85,15 +85,15 @@ function ModernUI.CreateWindow(options)
     options = options or {}
     local WindowName = options.Name or "Sev UI"
     local WindowIcon = options.Icon or "rbxassetid://7733955511"
-    local WindowSize = options.Size or {Width = 700, Height = 500}
+    local WindowSize = options.Size or {Width = 900, Height = 600}
     local Theme = options.Theme or {
-        Primary = Color3.fromRGB(30, 30, 35),
-        Secondary = Color3.fromRGB(40, 40, 45),
-        Accent = Color3.fromRGB(100, 150, 255),
-        Text = Color3.fromRGB(240, 240, 240),
-        SubText = Color3.fromRGB(160, 160, 165),
-        Background = Color3.fromRGB(20, 20, 25),
-        Border = Color3.fromRGB(60, 60, 70)
+        Primary = Color3.fromRGB(15, 20, 30),
+        Secondary = Color3.fromRGB(20, 28, 40),
+        Accent = Color3.fromRGB(80, 120, 255),
+        Text = Color3.fromRGB(240, 245, 255),
+        SubText = Color3.fromRGB(150, 160, 180),
+        Background = Color3.fromRGB(10, 15, 25),
+        Border = Color3.fromRGB(100, 110, 130)
     }
     
     local ScreenGui = Instance.new("ScreenGui")
@@ -189,10 +189,10 @@ function ModernUI.CreateWindow(options)
     -- Close Button
     local CloseButton = Instance.new("TextButton")
     CloseButton.Name = "CloseButton"
-    CloseButton.Size = UDim2.new(0, 28, 0, 28)
-    CloseButton.Position = UDim2.new(1, -36, 0.5, -14)
-    CloseButton.BackgroundColor3 = Color3.fromRGB(220, 50, 50)
-    CloseButton.Text = "×"
+    CloseButton.Size = UDim2.new(0, 26, 0, 26)
+    CloseButton.Position = UDim2.new(1, -34, 0.5, -13)
+    CloseButton.BackgroundColor3 = Theme.Primary
+    CloseButton.Text = ""
     CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     CloseButton.TextSize = 20
     CloseButton.Font = Enum.Font.GothamBold
@@ -204,6 +204,12 @@ function ModernUI.CreateWindow(options)
     CloseCorner.CornerRadius = UDim.new(1, 0)
     CloseCorner.Parent = CloseButton
     
+    local CloseStroke = Instance.new("UIStroke")
+    CloseStroke.Color = Color3.fromRGB(140, 140, 140)
+    CloseStroke.Thickness = 2
+    CloseStroke.Transparency = 0
+    CloseStroke.Parent = CloseButton
+    
     CloseButton.MouseButton1Click:Connect(function()
         Tween(MainFrame, {Size = UDim2.new(0, 0, 0, 0)}, 0.3)
         task.wait(0.3)
@@ -211,20 +217,20 @@ function ModernUI.CreateWindow(options)
     end)
     
     CloseButton.MouseEnter:Connect(function()
-        Tween(CloseButton, {BackgroundColor3 = Color3.fromRGB(255, 70, 70)}, 0.2)
+        Tween(CloseButton, {BackgroundColor3 = Color3.fromRGB(220, 50, 50)}, 0.2)
     end)
     
     CloseButton.MouseLeave:Connect(function()
-        Tween(CloseButton, {BackgroundColor3 = Color3.fromRGB(220, 50, 50)}, 0.2)
+        Tween(CloseButton, {BackgroundColor3 = Theme.Primary}, 0.2)
     end)
     
     -- Minimize Button
     local MinimizeButton = Instance.new("TextButton")
     MinimizeButton.Name = "MinimizeButton"
-    MinimizeButton.Size = UDim2.new(0, 28, 0, 28)
-    MinimizeButton.Position = UDim2.new(1, -70, 0.5, -14)
-    MinimizeButton.BackgroundColor3 = Color3.fromRGB(255, 180, 50)
-    MinimizeButton.Text = "−"
+    MinimizeButton.Size = UDim2.new(0, 26, 0, 26)
+    MinimizeButton.Position = UDim2.new(1, -66, 0.5, -13)
+    MinimizeButton.BackgroundColor3 = Theme.Primary
+    MinimizeButton.Text = ""
     MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     MinimizeButton.TextSize = 20
     MinimizeButton.Font = Enum.Font.GothamBold
@@ -235,6 +241,12 @@ function ModernUI.CreateWindow(options)
     local MinimizeCorner = Instance.new("UICorner")
     MinimizeCorner.CornerRadius = UDim.new(1, 0)
     MinimizeCorner.Parent = MinimizeButton
+    
+    local MinimizeStroke = Instance.new("UIStroke")
+    MinimizeStroke.Color = Color3.fromRGB(140, 140, 140)
+    MinimizeStroke.Thickness = 2
+    MinimizeStroke.Transparency = 0
+    MinimizeStroke.Parent = MinimizeButton
     
     local Minimized = false
     MinimizeButton.MouseButton1Click:Connect(function()
@@ -247,18 +259,18 @@ function ModernUI.CreateWindow(options)
     end)
     
     MinimizeButton.MouseEnter:Connect(function()
-        Tween(MinimizeButton, {BackgroundColor3 = Color3.fromRGB(255, 200, 80)}, 0.2)
-    end)
-    
-    MinimizeButton.MouseLeave:Connect(function()
         Tween(MinimizeButton, {BackgroundColor3 = Color3.fromRGB(255, 180, 50)}, 0.2)
     end)
     
-    -- Player Info (Bottom Left)
+    MinimizeButton.MouseLeave:Connect(function()
+        Tween(MinimizeButton, {BackgroundColor3 = Theme.Primary}, 0.2)
+    end)
+    
+    -- Player Info (Bottom Left - Connected to Tab Container)
     local PlayerInfo = Instance.new("Frame")
     PlayerInfo.Name = "PlayerInfo"
-    PlayerInfo.Size = UDim2.new(0, 150, 0, 50)
-    PlayerInfo.Position = UDim2.new(0, 10, 1, -55)
+    PlayerInfo.Size = UDim2.new(0, 180, 0, 55)
+    PlayerInfo.Position = UDim2.new(0, 10, 1, -60)
     PlayerInfo.BackgroundColor3 = Theme.Primary
     PlayerInfo.BorderSizePixel = 0
     PlayerInfo.Parent = MainFrame
@@ -317,7 +329,7 @@ function ModernUI.CreateWindow(options)
     -- Tab Container (Left Side)
     local TabContainer = Instance.new("ScrollingFrame")
     TabContainer.Name = "TabContainer"
-    TabContainer.Size = UDim2.new(0, 150, 1, -115)
+    TabContainer.Size = UDim2.new(0, 180, 1, -125)
     TabContainer.Position = UDim2.new(0, 10, 0, 55)
     TabContainer.BackgroundColor3 = Theme.Primary
     TabContainer.BorderSizePixel = 0
@@ -352,8 +364,8 @@ function ModernUI.CreateWindow(options)
     -- Content Container (Right Side)
     local ContentContainer = Instance.new("Frame")
     ContentContainer.Name = "ContentContainer"
-    ContentContainer.Size = UDim2.new(1, -170, 1, -60)
-    ContentContainer.Position = UDim2.new(0, 165, 0, 55)
+    ContentContainer.Size = UDim2.new(1, -210, 1, -60)
+    ContentContainer.Position = UDim2.new(0, 200, 0, 55)
     ContentContainer.BackgroundTransparency = 1
     ContentContainer.BorderSizePixel = 0
     ContentContainer.Parent = MainFrame
@@ -418,7 +430,7 @@ function ModernUI.CreateWindow(options)
         -- Left Section
         local LeftSection = Instance.new("ScrollingFrame")
         LeftSection.Name = "LeftSection"
-        LeftSection.Size = UDim2.new(0.48, 0, 1, 0)
+        LeftSection.Size = UDim2.new(0.49, 0, 1, 0)
         LeftSection.Position = UDim2.new(0, 0, 0, 0)
         LeftSection.BackgroundTransparency = 1
         LeftSection.BorderSizePixel = 0
@@ -436,8 +448,8 @@ function ModernUI.CreateWindow(options)
         -- Right Section
         local RightSection = Instance.new("ScrollingFrame")
         RightSection.Name = "RightSection"
-        RightSection.Size = UDim2.new(0.48, 0, 1, 0)
-        RightSection.Position = UDim2.new(0.52, 0, 0, 0)
+        RightSection.Size = UDim2.new(0.49, 0, 1, 0)
+        RightSection.Position = UDim2.new(0.51, 0, 0, 0)
         RightSection.BackgroundTransparency = 1
         RightSection.BorderSizePixel = 0
         RightSection.ScrollBarThickness = 4
@@ -1281,6 +1293,79 @@ function ModernUI.CreateWindow(options)
         
         return Tab
     end
+    
+    -- Resize Handle (Bottom Right Corner)
+    local ResizeHandle = Instance.new("ImageButton")
+    ResizeHandle.Name = "ResizeHandle"
+    ResizeHandle.Size = UDim2.new(0, 20, 0, 20)
+    ResizeHandle.Position = UDim2.new(1, -20, 1, -20)
+    ResizeHandle.BackgroundColor3 = Theme.Secondary
+    ResizeHandle.BorderSizePixel = 0
+    ResizeHandle.AutoButtonColor = false
+    ResizeHandle.Image = ""
+    ResizeHandle.Parent = MainFrame
+    
+    local ResizeCorner = Instance.new("UICorner")
+    ResizeCorner.CornerRadius = UDim.new(0, 6)
+    ResizeCorner.Parent = ResizeHandle
+    
+    local ResizeStroke = Instance.new("UIStroke")
+    ResizeStroke.Color = Theme.Border
+    ResizeStroke.Thickness = 2
+    ResizeStroke.Transparency = 0
+    ResizeStroke.Parent = ResizeHandle
+    
+    -- Resize Icon (3 diagonal lines)
+    for i = 1, 3 do
+        local Line = Instance.new("Frame")
+        Line.Size = UDim2.new(0, 2, 0, 12 - (i * 3))
+        Line.Position = UDim2.new(0, 4 + (i * 4), 1, -(4 + (12 - (i * 3))))
+        Line.BackgroundColor3 = Theme.Border
+        Line.BorderSizePixel = 0
+        Line.Rotation = 45
+        Line.Parent = ResizeHandle
+    end
+    
+    -- Resize Functionality
+    local resizing = false
+    local resizeStart = Vector2.new(0, 0)
+    local startSize = Vector2.new(0, 0)
+    
+    ResizeHandle.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            resizing = true
+            resizeStart = input.Position
+            startSize = Vector2.new(MainFrame.AbsoluteSize.X, MainFrame.AbsoluteSize.Y)
+        end
+    end)
+    
+    ResizeHandle.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            resizing = false
+        end
+    end)
+    
+    UserInputService.InputChanged:Connect(function(input)
+        if resizing and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+            local delta = input.Position - resizeStart
+            local newWidth = math.max(600, startSize.X + delta.X)
+            local newHeight = math.max(400, startSize.Y + delta.Y)
+            
+            WindowSize.Width = newWidth
+            WindowSize.Height = newHeight
+            
+            MainFrame.Size = UDim2.new(0, newWidth, 0, newHeight)
+            MainFrame.Position = UDim2.new(0.5, -newWidth/2, 0.5, -newHeight/2)
+        end
+    end)
+    
+    ResizeHandle.MouseEnter:Connect(function()
+        Tween(ResizeHandle, {BackgroundColor3 = Theme.Accent}, 0.2)
+    end)
+    
+    ResizeHandle.MouseLeave:Connect(function()
+        Tween(ResizeHandle, {BackgroundColor3 = Theme.Secondary}, 0.2)
+    end)
     
     -- Intro Animation
     MainFrame.Size = UDim2.new(0, 0, 0, 0)
