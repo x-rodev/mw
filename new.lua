@@ -473,9 +473,9 @@ function ModernUI.CreateWindow(options)
                 tab.Content.Visible = false
             end
             
-            TabButton.BackgroundColor3 = Theme.Accent
-            TabIconImage.ImageColor3 = Theme.Text
-            TabLabel.TextColor3 = Theme.Text
+            TabButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+            TabIconImage.ImageColor3 = Theme.Accent
+            TabLabel.TextColor3 = Theme.Accent
             TabContent.Visible = true
             CurrentTab = TabContent
             
@@ -483,13 +483,13 @@ function ModernUI.CreateWindow(options)
         end)
         
         TabButton.MouseEnter:Connect(function()
-            if TabButton.BackgroundColor3 ~= Theme.Accent then
-                Tween(TabButton, {BackgroundColor3 = Theme.Border}, 0.2)
+            if TabButton.BackgroundColor3 == Theme.Secondary then
+                Tween(TabButton, {BackgroundColor3 = Color3.fromRGB(30, 30, 30)}, 0.2)
             end
         end)
         
         TabButton.MouseLeave:Connect(function()
-            if TabButton.BackgroundColor3 ~= Theme.Accent then
+            if TabContent.Visible == false then
                 Tween(TabButton, {BackgroundColor3 = Theme.Secondary}, 0.2)
             end
         end)
@@ -506,9 +506,9 @@ function ModernUI.CreateWindow(options)
         table.insert(Tabs, Tab)
         
         if #Tabs == 1 then
-            TabButton.BackgroundColor3 = Theme.Accent
-            TabIconImage.ImageColor3 = Theme.Text
-            TabLabel.TextColor3 = Theme.Text
+            TabButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+            TabIconImage.ImageColor3 = Theme.Accent
+            TabLabel.TextColor3 = Theme.Accent
             TabContent.Visible = true
             CurrentTab = TabContent
         end
@@ -530,8 +530,14 @@ function ModernUI.CreateWindow(options)
             SectionFrame.Parent = Parent
             
             local SectionCorner = Instance.new("UICorner")
-            SectionCorner.CornerRadius = UDim.new(0, 10)
+            SectionCorner.CornerRadius = UDim.new(0, 8)
             SectionCorner.Parent = SectionFrame
+            
+            local SectionStroke = Instance.new("UIStroke")
+            SectionStroke.Color = Theme.Border
+            SectionStroke.Thickness = 1.5
+            SectionStroke.Transparency = 0
+            SectionStroke.Parent = SectionFrame
             
             local SectionTitle = Instance.new("TextLabel")
             SectionTitle.Name = "Title"
@@ -581,12 +587,6 @@ function ModernUI.CreateWindow(options)
                 ButtonCorner.CornerRadius = UDim.new(0, 6)
                 ButtonCorner.Parent = Button
                 
-                local ButtonStroke = Instance.new("UIStroke")
-                ButtonStroke.Color = Theme.Border
-                ButtonStroke.Thickness = 1.5
-                ButtonStroke.Transparency = 0
-                ButtonStroke.Parent = Button
-                
                 Button.MouseButton1Click:Connect(function()
                     Ripple(Button, Mouse.X, Mouse.Y)
                     pcall(Callback)
@@ -619,12 +619,6 @@ function ModernUI.CreateWindow(options)
                 local ToggleCorner = Instance.new("UICorner")
                 ToggleCorner.CornerRadius = UDim.new(0, 6)
                 ToggleCorner.Parent = ToggleFrame
-                
-                local ToggleStroke = Instance.new("UIStroke")
-                ToggleStroke.Color = Theme.Border
-                ToggleStroke.Thickness = 1.5
-                ToggleStroke.Transparency = 0
-                ToggleStroke.Parent = ToggleFrame
                 
                 local ToggleLabel = Instance.new("TextLabel")
                 ToggleLabel.Size = UDim2.new(1, -50, 1, 0)
@@ -703,12 +697,6 @@ function ModernUI.CreateWindow(options)
                 local SliderCorner = Instance.new("UICorner")
                 SliderCorner.CornerRadius = UDim.new(0, 6)
                 SliderCorner.Parent = SliderFrame
-                
-                local SliderFrameStroke = Instance.new("UIStroke")
-                SliderFrameStroke.Color = Theme.Border
-                SliderFrameStroke.Thickness = 1.5
-                SliderFrameStroke.Transparency = 0
-                SliderFrameStroke.Parent = SliderFrame
                 
                 local SliderLabel = Instance.new("TextLabel")
                 SliderLabel.Size = UDim2.new(1, -20, 0, 20)
@@ -854,12 +842,6 @@ function ModernUI.CreateWindow(options)
                 local DropdownCorner = Instance.new("UICorner")
                 DropdownCorner.CornerRadius = UDim.new(0, 6)
                 DropdownCorner.Parent = DropdownFrame
-                
-                local DropdownStroke = Instance.new("UIStroke")
-                DropdownStroke.Color = Theme.Border
-                DropdownStroke.Thickness = 1.5
-                DropdownStroke.Transparency = 0
-                DropdownStroke.Parent = DropdownFrame
                 
                 local DropdownButton = Instance.new("TextButton")
                 DropdownButton.Size = UDim2.new(1, 0, 0, 35)
@@ -1085,12 +1067,6 @@ function ModernUI.CreateWindow(options)
                 PickerCorner.CornerRadius = UDim.new(0, 6)
                 PickerCorner.Parent = PickerFrame
                 
-                local PickerStroke = Instance.new("UIStroke")
-                PickerStroke.Color = Theme.Border
-                PickerStroke.Thickness = 1.5
-                PickerStroke.Transparency = 0
-                PickerStroke.Parent = PickerFrame
-                
                 local PickerLabel = Instance.new("TextLabel")
                 PickerLabel.Size = UDim2.new(1, -50, 1, 0)
                 PickerLabel.Position = UDim2.new(0, 10, 0, 0)
@@ -1268,12 +1244,6 @@ function ModernUI.CreateWindow(options)
                 local TextBoxCorner = Instance.new("UICorner")
                 TextBoxCorner.CornerRadius = UDim.new(0, 6)
                 TextBoxCorner.Parent = TextBoxFrame
-                
-                local TextBoxFrameStroke = Instance.new("UIStroke")
-                TextBoxFrameStroke.Color = Theme.Border
-                TextBoxFrameStroke.Thickness = 1.5
-                TextBoxFrameStroke.Transparency = 0
-                TextBoxFrameStroke.Parent = TextBoxFrame
                 
                 local TextBoxLabel = Instance.new("TextLabel")
                 TextBoxLabel.Size = UDim2.new(1, -20, 0, 20)
