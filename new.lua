@@ -87,13 +87,13 @@ function ModernUI.CreateWindow(options)
     local WindowIcon = options.Icon or "rbxassetid://7733955511"
     local WindowSize = options.Size or {Width = 700, Height = 500}
     local Theme = options.Theme or {
-        Primary = Color3.fromRGB(0, 0, 0),
-        Secondary = Color3.fromRGB(0, 0, 0),
-        Accent = Color3.fromRGB(255, 255, 255),
-        Text = Color3.fromRGB(255, 255, 255),
-        SubText = Color3.fromRGB(180, 180, 180),
-        Background = Color3.fromRGB(0, 0, 0),
-        Border = Color3.fromRGB(255, 255, 255)
+        Primary = Color3.fromRGB(30, 30, 35),
+        Secondary = Color3.fromRGB(40, 40, 45),
+        Accent = Color3.fromRGB(100, 150, 255),
+        Text = Color3.fromRGB(240, 240, 240),
+        SubText = Color3.fromRGB(160, 160, 165),
+        Background = Color3.fromRGB(20, 20, 25),
+        Border = Color3.fromRGB(60, 60, 70)
     }
     
     local ScreenGui = Instance.new("ScreenGui")
@@ -189,12 +189,12 @@ function ModernUI.CreateWindow(options)
     -- Close Button
     local CloseButton = Instance.new("TextButton")
     CloseButton.Name = "CloseButton"
-    CloseButton.Size = UDim2.new(0, 24, 0, 24)
-    CloseButton.Position = UDim2.new(1, -32, 0.5, -12)
-    CloseButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-    CloseButton.Text = ""
-    CloseButton.TextColor3 = Theme.Text
-    CloseButton.TextSize = 16
+    CloseButton.Size = UDim2.new(0, 28, 0, 28)
+    CloseButton.Position = UDim2.new(1, -36, 0.5, -14)
+    CloseButton.BackgroundColor3 = Color3.fromRGB(220, 50, 50)
+    CloseButton.Text = "×"
+    CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CloseButton.TextSize = 20
     CloseButton.Font = Enum.Font.GothamBold
     CloseButton.BorderSizePixel = 0
     CloseButton.AutoButtonColor = false
@@ -204,12 +204,6 @@ function ModernUI.CreateWindow(options)
     CloseCorner.CornerRadius = UDim.new(1, 0)
     CloseCorner.Parent = CloseButton
     
-    local CloseStroke = Instance.new("UIStroke")
-    CloseStroke.Color = Color3.fromRGB(255, 255, 255)
-    CloseStroke.Thickness = 2
-    CloseStroke.Transparency = 0
-    CloseStroke.Parent = CloseButton
-    
     CloseButton.MouseButton1Click:Connect(function()
         Tween(MainFrame, {Size = UDim2.new(0, 0, 0, 0)}, 0.3)
         task.wait(0.3)
@@ -217,22 +211,22 @@ function ModernUI.CreateWindow(options)
     end)
     
     CloseButton.MouseEnter:Connect(function()
-        Tween(CloseButton, {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}, 0.2)
+        Tween(CloseButton, {BackgroundColor3 = Color3.fromRGB(255, 70, 70)}, 0.2)
     end)
     
     CloseButton.MouseLeave:Connect(function()
-        Tween(CloseButton, {BackgroundColor3 = Color3.fromRGB(0, 0, 0)}, 0.2)
+        Tween(CloseButton, {BackgroundColor3 = Color3.fromRGB(220, 50, 50)}, 0.2)
     end)
     
     -- Minimize Button
     local MinimizeButton = Instance.new("TextButton")
     MinimizeButton.Name = "MinimizeButton"
-    MinimizeButton.Size = UDim2.new(0, 24, 0, 24)
-    MinimizeButton.Position = UDim2.new(1, -62, 0.5, -12)
-    MinimizeButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-    MinimizeButton.Text = ""
-    MinimizeButton.TextColor3 = Theme.Text
-    MinimizeButton.TextSize = 16
+    MinimizeButton.Size = UDim2.new(0, 28, 0, 28)
+    MinimizeButton.Position = UDim2.new(1, -70, 0.5, -14)
+    MinimizeButton.BackgroundColor3 = Color3.fromRGB(255, 180, 50)
+    MinimizeButton.Text = "−"
+    MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    MinimizeButton.TextSize = 20
     MinimizeButton.Font = Enum.Font.GothamBold
     MinimizeButton.BorderSizePixel = 0
     MinimizeButton.AutoButtonColor = false
@@ -241,12 +235,6 @@ function ModernUI.CreateWindow(options)
     local MinimizeCorner = Instance.new("UICorner")
     MinimizeCorner.CornerRadius = UDim.new(1, 0)
     MinimizeCorner.Parent = MinimizeButton
-    
-    local MinimizeStroke = Instance.new("UIStroke")
-    MinimizeStroke.Color = Color3.fromRGB(255, 255, 255)
-    MinimizeStroke.Thickness = 2
-    MinimizeStroke.Transparency = 0
-    MinimizeStroke.Parent = MinimizeButton
     
     local Minimized = false
     MinimizeButton.MouseButton1Click:Connect(function()
@@ -259,11 +247,11 @@ function ModernUI.CreateWindow(options)
     end)
     
     MinimizeButton.MouseEnter:Connect(function()
-        Tween(MinimizeButton, {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}, 0.2)
+        Tween(MinimizeButton, {BackgroundColor3 = Color3.fromRGB(255, 200, 80)}, 0.2)
     end)
     
     MinimizeButton.MouseLeave:Connect(function()
-        Tween(MinimizeButton, {BackgroundColor3 = Color3.fromRGB(0, 0, 0)}, 0.2)
+        Tween(MinimizeButton, {BackgroundColor3 = Color3.fromRGB(255, 180, 50)}, 0.2)
     end)
     
     -- Player Info (Bottom Left)
@@ -394,13 +382,11 @@ function ModernUI.CreateWindow(options)
         TabButtonCorner.CornerRadius = UDim.new(0, 8)
         TabButtonCorner.Parent = TabButton
         
-        local TabButtonStroke = Instance.new("UIStroke")
-        TabButtonStroke.Color = Theme.Border
-        TabButtonStroke.Thickness = 1.5
-        TabButtonStroke.Transparency = 0
-        TabButtonStroke.Parent = TabButton
-        
-        local TabIconImage = Instance.new("ImageLabel")
+                local TabButtonStroke = Instance.new("UIStroke")
+                TabButtonStroke.Color = Color3.fromRGB(70, 70, 80)
+                TabButtonStroke.Thickness = 1.5
+                TabButtonStroke.Transparency = 0
+                TabButtonStroke.Parent = TabButton        local TabIconImage = Instance.new("ImageLabel")
         TabIconImage.Name = "Icon"
         TabIconImage.Size = UDim2.new(0, 24, 0, 24)
         TabIconImage.Position = UDim2.new(0, 10, 0.5, -12)
@@ -473,9 +459,9 @@ function ModernUI.CreateWindow(options)
                 tab.Content.Visible = false
             end
             
-            TabButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-            TabIconImage.ImageColor3 = Theme.Accent
-            TabLabel.TextColor3 = Theme.Accent
+            TabButton.BackgroundColor3 = Color3.fromRGB(50, 50, 60)
+            TabIconImage.ImageColor3 = Color3.fromRGB(100, 150, 255)
+            TabLabel.TextColor3 = Color3.fromRGB(100, 150, 255)
             TabContent.Visible = true
             CurrentTab = TabContent
             
@@ -484,7 +470,7 @@ function ModernUI.CreateWindow(options)
         
         TabButton.MouseEnter:Connect(function()
             if TabButton.BackgroundColor3 == Theme.Secondary then
-                Tween(TabButton, {BackgroundColor3 = Color3.fromRGB(30, 30, 30)}, 0.2)
+                Tween(TabButton, {BackgroundColor3 = Color3.fromRGB(48, 48, 55)}, 0.2)
             end
         end)
         
@@ -506,9 +492,9 @@ function ModernUI.CreateWindow(options)
         table.insert(Tabs, Tab)
         
         if #Tabs == 1 then
-            TabButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-            TabIconImage.ImageColor3 = Theme.Accent
-            TabLabel.TextColor3 = Theme.Accent
+            TabButton.BackgroundColor3 = Color3.fromRGB(50, 50, 60)
+            TabIconImage.ImageColor3 = Color3.fromRGB(100, 150, 255)
+            TabLabel.TextColor3 = Color3.fromRGB(100, 150, 255)
             TabContent.Visible = true
             CurrentTab = TabContent
         end
@@ -534,8 +520,8 @@ function ModernUI.CreateWindow(options)
             SectionCorner.Parent = SectionFrame
             
             local SectionStroke = Instance.new("UIStroke")
-            SectionStroke.Color = Theme.Border
-            SectionStroke.Thickness = 1.5
+            SectionStroke.Color = Color3.fromRGB(100, 150, 255)
+            SectionStroke.Thickness = 2
             SectionStroke.Transparency = 0
             SectionStroke.Parent = SectionFrame
             
@@ -632,9 +618,9 @@ function ModernUI.CreateWindow(options)
                 ToggleLabel.Parent = ToggleFrame
                 
                 local ToggleButton = Instance.new("TextButton")
-                ToggleButton.Size = UDim2.new(0, 40, 0, 20)
-                ToggleButton.Position = UDim2.new(1, -45, 0.5, -10)
-                ToggleButton.BackgroundColor3 = Default and Theme.Accent or Theme.Border
+                ToggleButton.Size = UDim2.new(0, 44, 0, 24)
+                ToggleButton.Position = UDim2.new(1, -48, 0.5, -12)
+                ToggleButton.BackgroundColor3 = Default and Color3.fromRGB(100, 150, 255) or Color3.fromRGB(80, 80, 85)
                 ToggleButton.Text = ""
                 ToggleButton.BorderSizePixel = 0
                 ToggleButton.AutoButtonColor = false
@@ -645,9 +631,9 @@ function ModernUI.CreateWindow(options)
                 ToggleButtonCorner.Parent = ToggleButton
                 
                 local ToggleIndicator = Instance.new("Frame")
-                ToggleIndicator.Size = UDim2.new(0, 16, 0, 16)
-                ToggleIndicator.Position = Default and UDim2.new(1, -18, 0.5, -8) or UDim2.new(0, 2, 0.5, -8)
-                ToggleIndicator.BackgroundColor3 = Theme.Text
+                ToggleIndicator.Size = UDim2.new(0, 18, 0, 18)
+                ToggleIndicator.Position = Default and UDim2.new(1, -21, 0.5, -9) or UDim2.new(0, 3, 0.5, -9)
+                ToggleIndicator.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 ToggleIndicator.BorderSizePixel = 0
                 ToggleIndicator.Parent = ToggleButton
                 
@@ -660,8 +646,8 @@ function ModernUI.CreateWindow(options)
                 ToggleButton.MouseButton1Click:Connect(function()
                     Toggled = not Toggled
                     
-                    Tween(ToggleButton, {BackgroundColor3 = Toggled and Theme.Accent or Theme.Border}, 0.2)
-                    Tween(ToggleIndicator, {Position = Toggled and UDim2.new(1, -18, 0.5, -8) or UDim2.new(0, 2, 0.5, -8)}, 0.2)
+                    Tween(ToggleButton, {BackgroundColor3 = Toggled and Color3.fromRGB(100, 150, 255) or Color3.fromRGB(80, 80, 85)}, 0.2)
+                    Tween(ToggleIndicator, {Position = Toggled and UDim2.new(1, -21, 0.5, -9) or UDim2.new(0, 3, 0.5, -9)}, 0.2)
                     
                     pcall(function()
                         Callback(Toggled)
@@ -671,8 +657,8 @@ function ModernUI.CreateWindow(options)
                 local Toggle = {}
                 function Toggle:SetValue(value)
                     Toggled = value
-                    Tween(ToggleButton, {BackgroundColor3 = Toggled and Theme.Accent or Theme.Border}, 0.2)
-                    Tween(ToggleIndicator, {Position = Toggled and UDim2.new(1, -18, 0.5, -8) or UDim2.new(0, 2, 0.5, -8)}, 0.2)
+                    Tween(ToggleButton, {BackgroundColor3 = Toggled and Color3.fromRGB(100, 150, 255) or Color3.fromRGB(80, 80, 85)}, 0.2)
+                    Tween(ToggleIndicator, {Position = Toggled and UDim2.new(1, -21, 0.5, -9) or UDim2.new(0, 3, 0.5, -9)}, 0.2)
                 end
                 
                 return Toggle
@@ -1172,7 +1158,7 @@ function ModernUI.CreateWindow(options)
                     
                     ColorBox.MouseButton1Click:Connect(function()
                         CurrentColor = color
-                        Tween(ColorDisplay, {BackgroundColor3 = CurrentColor}, 0.2)
+                        ColorDisplay.BackgroundColor3 = CurrentColor
                         ColorPickerOpen = false
                         ColorPickerPanel.Visible = false
                         pcall(function()
@@ -1221,7 +1207,7 @@ function ModernUI.CreateWindow(options)
                 local ColorPicker = {}
                 function ColorPicker:SetColor(color)
                     CurrentColor = color
-                    Tween(ColorDisplay, {BackgroundColor3 = CurrentColor}, 0.2)
+                    ColorDisplay.BackgroundColor3 = CurrentColor
                 end
                 
                 return ColorPicker
