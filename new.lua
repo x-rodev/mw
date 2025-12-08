@@ -81,7 +81,7 @@ local function MakeDraggable(frame, dragHandle)
 end
 
 -- Main Library Functions
-function ModernUI:CreateWindow(options)
+function ModernUI.CreateWindow(options)
     options = options or {}
     local WindowName = options.Name or "Modern UI"
     local WindowIcon = options.Icon or "rbxassetid://7733955511"
