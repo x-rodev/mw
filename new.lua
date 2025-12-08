@@ -85,7 +85,7 @@ function ModernUI.CreateWindow(options)
     options = options or {}
     local WindowName = options.Name or "Sev UI"
     local WindowIcon = options.Icon or "rbxassetid://7733955511"
-    local WindowSize = options.Size or {Width = 900, Height = 600}
+    local WindowSize = options.Size or {Width = 1000, Height = 550}
     local Theme = options.Theme or {
         Primary = Color3.fromRGB(15, 20, 30),
         Secondary = Color3.fromRGB(20, 28, 40),
@@ -191,7 +191,7 @@ function ModernUI.CreateWindow(options)
     CloseButton.Name = "CloseButton"
     CloseButton.Size = UDim2.new(0, 26, 0, 26)
     CloseButton.Position = UDim2.new(1, -34, 0.5, -13)
-    CloseButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    CloseButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     CloseButton.Text = ""
     CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     CloseButton.TextSize = 20
@@ -204,12 +204,6 @@ function ModernUI.CreateWindow(options)
     CloseCorner.CornerRadius = UDim.new(1, 0)
     CloseCorner.Parent = CloseButton
     
-    local CloseStroke = Instance.new("UIStroke")
-    CloseStroke.Color = Color3.fromRGB(140, 140, 140)
-    CloseStroke.Thickness = 2
-    CloseStroke.Transparency = 0
-    CloseStroke.Parent = CloseButton
-    
     CloseButton.MouseButton1Click:Connect(function()
         Tween(MainFrame, {Size = UDim2.new(0, 0, 0, 0)}, 0.3)
         task.wait(0.3)
@@ -217,41 +211,36 @@ function ModernUI.CreateWindow(options)
     end)
     
     CloseButton.MouseEnter:Connect(function()
-        Tween(CloseButton, {BackgroundColor3 = Color3.fromRGB(90, 90, 90)}, 0.2)
+        Tween(CloseButton, {BackgroundColor3 = Color3.fromRGB(70, 70, 70)}, 0.2)
     end)
     
     CloseButton.MouseLeave:Connect(function()
-        Tween(CloseButton, {BackgroundColor3 = Color3.fromRGB(60, 60, 60)}, 0.2)
+        Tween(CloseButton, {BackgroundColor3 = Color3.fromRGB(50, 50, 50)}, 0.2)
     end)
     
-    -- Minimize Toggle Button (Top Center)
+    -- Minimize Toggle Button (Outside UI - Top Center of Screen)
     local MinimizeButton = Instance.new("TextButton")
     MinimizeButton.Name = "MinimizeButton"
-    MinimizeButton.Size = UDim2.new(0, 60, 0, 20)
-    MinimizeButton.Position = UDim2.new(0.5, -30, 0, -10)
-    MinimizeButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    MinimizeButton.Size = UDim2.new(0, 80, 0, 25)
+    MinimizeButton.Position = UDim2.new(0.5, -40, 0, 10)
+    MinimizeButton.AnchorPoint = Vector2.new(0.5, 0)
+    MinimizeButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     MinimizeButton.Text = ""
     MinimizeButton.BorderSizePixel = 0
     MinimizeButton.AutoButtonColor = false
-    MinimizeButton.ZIndex = 5
-    MinimizeButton.Parent = MainFrame
+    MinimizeButton.ZIndex = 10
+    MinimizeButton.Parent = ScreenGui
     
     local MinimizeCorner = Instance.new("UICorner")
-    MinimizeCorner.CornerRadius = UDim.new(0, 10)
+    MinimizeCorner.CornerRadius = UDim.new(0, 12)
     MinimizeCorner.Parent = MinimizeButton
-    
-    local MinimizeStroke = Instance.new("UIStroke")
-    MinimizeStroke.Color = Color3.fromRGB(140, 140, 140)
-    MinimizeStroke.Thickness = 2
-    MinimizeStroke.Transparency = 0
-    MinimizeStroke.Parent = MinimizeButton
     
     local MinimizeIcon = Instance.new("TextLabel")
     MinimizeIcon.Size = UDim2.new(1, 0, 1, 0)
     MinimizeIcon.BackgroundTransparency = 1
     MinimizeIcon.Text = "▼"
-    MinimizeIcon.TextColor3 = Theme.Text
-    MinimizeIcon.TextSize = 10
+    MinimizeIcon.TextColor3 = Color3.fromRGB(200, 200, 200)
+    MinimizeIcon.TextSize = 12
     MinimizeIcon.Font = Enum.Font.GothamBold
     MinimizeIcon.Parent = MinimizeButton
     
@@ -259,22 +248,22 @@ function ModernUI.CreateWindow(options)
     MinimizeButton.MouseButton1Click:Connect(function()
         Minimized = not Minimized
         if Minimized then
-            Tween(MainFrame, {Size = UDim2.new(0, WindowSize.Width, 0, 20)}, 0.3)
+            Tween(MainFrame, {Position = UDim2.new(0.5, -WindowSize.Width/2, 1.5, 0)}, 0.3)
             Tween(MinimizeIcon, {Rotation = 180}, 0.3)
-            MinimizeButton.Position = UDim2.new(0.5, -30, 0.5, -10)
+            CloseButton.Visible = false
         else
-            Tween(MainFrame, {Size = UDim2.new(0, WindowSize.Width, 0, WindowSize.Height)}, 0.3)
+            Tween(MainFrame, {Position = UDim2.new(0.5, -WindowSize.Width/2, 0.5, -WindowSize.Height/2)}, 0.3)
             Tween(MinimizeIcon, {Rotation = 0}, 0.3)
-            MinimizeButton.Position = UDim2.new(0.5, -30, 0, -10)
+            CloseButton.Visible = true
         end
     end)
     
     MinimizeButton.MouseEnter:Connect(function()
-        Tween(MinimizeButton, {BackgroundColor3 = Color3.fromRGB(90, 90, 90)}, 0.2)
+        Tween(MinimizeButton, {BackgroundColor3 = Color3.fromRGB(70, 70, 70)}, 0.2)
     end)
     
     MinimizeButton.MouseLeave:Connect(function()
-        Tween(MinimizeButton, {BackgroundColor3 = Color3.fromRGB(60, 60, 60)}, 0.2)
+        Tween(MinimizeButton, {BackgroundColor3 = Color3.fromRGB(50, 50, 50)}, 0.2)
     end)
     
     -- Player Info (Bottom Left - Connected to Tab Container)
