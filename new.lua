@@ -191,7 +191,7 @@ function ModernUI.CreateWindow(options)
     CloseButton.Name = "CloseButton"
     CloseButton.Size = UDim2.new(0, 26, 0, 26)
     CloseButton.Position = UDim2.new(1, -34, 0.5, -13)
-    CloseButton.BackgroundColor3 = Theme.Primary
+    CloseButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
     CloseButton.Text = ""
     CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     CloseButton.TextSize = 20
@@ -217,11 +217,11 @@ function ModernUI.CreateWindow(options)
     end)
     
     CloseButton.MouseEnter:Connect(function()
-        Tween(CloseButton, {BackgroundColor3 = Color3.fromRGB(220, 50, 50)}, 0.2)
+        Tween(CloseButton, {BackgroundColor3 = Color3.fromRGB(90, 90, 90)}, 0.2)
     end)
     
     CloseButton.MouseLeave:Connect(function()
-        Tween(CloseButton, {BackgroundColor3 = Theme.Primary}, 0.2)
+        Tween(CloseButton, {BackgroundColor3 = Color3.fromRGB(60, 60, 60)}, 0.2)
     end)
     
     -- Minimize Toggle Button (Top Center)
@@ -229,7 +229,7 @@ function ModernUI.CreateWindow(options)
     MinimizeButton.Name = "MinimizeButton"
     MinimizeButton.Size = UDim2.new(0, 60, 0, 20)
     MinimizeButton.Position = UDim2.new(0.5, -30, 0, -10)
-    MinimizeButton.BackgroundColor3 = Theme.Primary
+    MinimizeButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
     MinimizeButton.Text = ""
     MinimizeButton.BorderSizePixel = 0
     MinimizeButton.AutoButtonColor = false
@@ -270,11 +270,11 @@ function ModernUI.CreateWindow(options)
     end)
     
     MinimizeButton.MouseEnter:Connect(function()
-        Tween(MinimizeButton, {BackgroundColor3 = Theme.Secondary}, 0.2)
+        Tween(MinimizeButton, {BackgroundColor3 = Color3.fromRGB(90, 90, 90)}, 0.2)
     end)
     
     MinimizeButton.MouseLeave:Connect(function()
-        Tween(MinimizeButton, {BackgroundColor3 = Theme.Primary}, 0.2)
+        Tween(MinimizeButton, {BackgroundColor3 = Color3.fromRGB(60, 60, 60)}, 0.2)
     end)
     
     -- Player Info (Bottom Left - Connected to Tab Container)
