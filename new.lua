@@ -224,22 +224,20 @@ function ModernUI.CreateWindow(options)
         Tween(CloseButton, {BackgroundColor3 = Theme.Primary}, 0.2)
     end)
     
-    -- Minimize Button
+    -- Minimize Toggle Button (Top Center)
     local MinimizeButton = Instance.new("TextButton")
     MinimizeButton.Name = "MinimizeButton"
-    MinimizeButton.Size = UDim2.new(0, 26, 0, 26)
-    MinimizeButton.Position = UDim2.new(1, -66, 0.5, -13)
+    MinimizeButton.Size = UDim2.new(0, 60, 0, 20)
+    MinimizeButton.Position = UDim2.new(0.5, -30, 0, -10)
     MinimizeButton.BackgroundColor3 = Theme.Primary
     MinimizeButton.Text = ""
-    MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    MinimizeButton.TextSize = 20
-    MinimizeButton.Font = Enum.Font.GothamBold
     MinimizeButton.BorderSizePixel = 0
     MinimizeButton.AutoButtonColor = false
-    MinimizeButton.Parent = TopBar
+    MinimizeButton.ZIndex = 5
+    MinimizeButton.Parent = MainFrame
     
     local MinimizeCorner = Instance.new("UICorner")
-    MinimizeCorner.CornerRadius = UDim.new(1, 0)
+    MinimizeCorner.CornerRadius = UDim.new(0, 10)
     MinimizeCorner.Parent = MinimizeButton
     
     local MinimizeStroke = Instance.new("UIStroke")
@@ -248,18 +246,31 @@ function ModernUI.CreateWindow(options)
     MinimizeStroke.Transparency = 0
     MinimizeStroke.Parent = MinimizeButton
     
+    local MinimizeIcon = Instance.new("TextLabel")
+    MinimizeIcon.Size = UDim2.new(1, 0, 1, 0)
+    MinimizeIcon.BackgroundTransparency = 1
+    MinimizeIcon.Text = "▼"
+    MinimizeIcon.TextColor3 = Theme.Text
+    MinimizeIcon.TextSize = 10
+    MinimizeIcon.Font = Enum.Font.GothamBold
+    MinimizeIcon.Parent = MinimizeButton
+    
     local Minimized = false
     MinimizeButton.MouseButton1Click:Connect(function()
         Minimized = not Minimized
         if Minimized then
-            Tween(MainFrame, {Size = UDim2.new(0, WindowSize.Width, 0, 50)}, 0.3)
+            Tween(MainFrame, {Size = UDim2.new(0, WindowSize.Width, 0, 20)}, 0.3)
+            Tween(MinimizeIcon, {Rotation = 180}, 0.3)
+            MinimizeButton.Position = UDim2.new(0.5, -30, 0.5, -10)
         else
             Tween(MainFrame, {Size = UDim2.new(0, WindowSize.Width, 0, WindowSize.Height)}, 0.3)
+            Tween(MinimizeIcon, {Rotation = 0}, 0.3)
+            MinimizeButton.Position = UDim2.new(0.5, -30, 0, -10)
         end
     end)
     
     MinimizeButton.MouseEnter:Connect(function()
-        Tween(MinimizeButton, {BackgroundColor3 = Color3.fromRGB(255, 180, 50)}, 0.2)
+        Tween(MinimizeButton, {BackgroundColor3 = Theme.Secondary}, 0.2)
     end)
     
     MinimizeButton.MouseLeave:Connect(function()
@@ -521,7 +532,7 @@ function ModernUI.CreateWindow(options)
             
             local SectionFrame = Instance.new("Frame")
             SectionFrame.Name = SectionName
-            SectionFrame.Size = UDim2.new(1, 0, 0, 40)
+            SectionFrame.Size = UDim2.new(1, 0, 0, 35)
             SectionFrame.BackgroundColor3 = Theme.Primary
             SectionFrame.BorderSizePixel = 0
             SectionFrame.AutomaticSize = Enum.AutomaticSize.Y
@@ -531,28 +542,22 @@ function ModernUI.CreateWindow(options)
             SectionCorner.CornerRadius = UDim.new(0, 8)
             SectionCorner.Parent = SectionFrame
             
-            local SectionStroke = Instance.new("UIStroke")
-            SectionStroke.Color = Color3.fromRGB(100, 150, 255)
-            SectionStroke.Thickness = 2
-            SectionStroke.Transparency = 0
-            SectionStroke.Parent = SectionFrame
-            
             local SectionTitle = Instance.new("TextLabel")
             SectionTitle.Name = "Title"
-            SectionTitle.Size = UDim2.new(1, -20, 0, 35)
-            SectionTitle.Position = UDim2.new(0, 10, 0, 5)
+            SectionTitle.Size = UDim2.new(1, -16, 0, 30)
+            SectionTitle.Position = UDim2.new(0, 8, 0, 3)
             SectionTitle.BackgroundTransparency = 1
             SectionTitle.Text = SectionName
             SectionTitle.TextColor3 = Theme.Text
-            SectionTitle.TextSize = 16
+            SectionTitle.TextSize = 14
             SectionTitle.Font = Enum.Font.GothamBold
             SectionTitle.TextXAlignment = Enum.TextXAlignment.Left
             SectionTitle.Parent = SectionFrame
             
             local SectionContainer = Instance.new("Frame")
             SectionContainer.Name = "Container"
-            SectionContainer.Size = UDim2.new(1, -20, 1, -45)
-            SectionContainer.Position = UDim2.new(0, 10, 0, 40)
+            SectionContainer.Size = UDim2.new(1, -16, 1, -38)
+            SectionContainer.Position = UDim2.new(0, 8, 0, 35)
             SectionContainer.BackgroundTransparency = 1
             SectionContainer.AutomaticSize = Enum.AutomaticSize.Y
             SectionContainer.Parent = SectionFrame
@@ -1048,183 +1053,6 @@ function ModernUI.CreateWindow(options)
                 return LabelObj
             end
             
-            function Section:AddColorPicker(options)
-                options = options or {}
-                local PickerName = options.Name or "Color Picker"
-                local Default = options.Default or Color3.fromRGB(255, 255, 255)
-                local Callback = options.Callback or function() end
-                
-                local PickerFrame = Instance.new("Frame")
-                PickerFrame.Name = PickerName
-                PickerFrame.Size = UDim2.new(1, 0, 0, 35)
-                PickerFrame.BackgroundColor3 = Theme.Secondary
-                PickerFrame.BorderSizePixel = 0
-                PickerFrame.Parent = SectionContainer
-                
-                local PickerCorner = Instance.new("UICorner")
-                PickerCorner.CornerRadius = UDim.new(0, 6)
-                PickerCorner.Parent = PickerFrame
-                
-                local PickerLabel = Instance.new("TextLabel")
-                PickerLabel.Size = UDim2.new(1, -50, 1, 0)
-                PickerLabel.Position = UDim2.new(0, 10, 0, 0)
-                PickerLabel.BackgroundTransparency = 1
-                PickerLabel.Text = PickerName
-                PickerLabel.TextColor3 = Theme.Text
-                PickerLabel.TextSize = 14
-                PickerLabel.Font = Enum.Font.GothamMedium
-                PickerLabel.TextXAlignment = Enum.TextXAlignment.Left
-                PickerLabel.Parent = PickerFrame
-                
-                local ColorDisplay = Instance.new("Frame")
-                ColorDisplay.Size = UDim2.new(0, 30, 0, 20)
-                ColorDisplay.Position = UDim2.new(1, -40, 0.5, -10)
-                ColorDisplay.BackgroundColor3 = Default
-                ColorDisplay.BorderSizePixel = 0
-                ColorDisplay.Parent = PickerFrame
-                
-                local ColorCorner = Instance.new("UICorner")
-                ColorCorner.CornerRadius = UDim.new(0, 6)
-                ColorCorner.Parent = ColorDisplay
-                
-                local ColorButton = Instance.new("TextButton")
-                ColorButton.Size = UDim2.new(1, 0, 1, 0)
-                ColorButton.BackgroundTransparency = 1
-                ColorButton.Text = ""
-                ColorButton.Parent = ColorDisplay
-                
-                local CurrentColor = Default
-                local ColorPickerOpen = false
-                
-                -- Color Picker Panel
-                local ColorPickerPanel = Instance.new("Frame")
-                ColorPickerPanel.Name = "ColorPickerPanel"
-                ColorPickerPanel.Size = UDim2.new(0, 200, 0, 180)
-                ColorPickerPanel.Position = UDim2.new(1, 10, 0, 0)
-                ColorPickerPanel.BackgroundColor3 = Theme.Primary
-                ColorPickerPanel.BorderSizePixel = 0
-                ColorPickerPanel.Visible = false
-                ColorPickerPanel.ZIndex = 10
-                ColorPickerPanel.Parent = PickerFrame
-                
-                local PanelCorner = Instance.new("UICorner")
-                PanelCorner.CornerRadius = UDim.new(0, 10)
-                PanelCorner.Parent = ColorPickerPanel
-                
-                local PanelStroke = Instance.new("UIStroke")
-                PanelStroke.Color = Theme.Border
-                PanelStroke.Thickness = 2
-                PanelStroke.Parent = ColorPickerPanel
-                
-                local PanelShadow = Instance.new("ImageLabel")
-                PanelShadow.BackgroundTransparency = 1
-                PanelShadow.Position = UDim2.new(0, -15, 0, -15)
-                PanelShadow.Size = UDim2.new(1, 30, 1, 30)
-                PanelShadow.ZIndex = 9
-                PanelShadow.Image = "rbxassetid://5554236805"
-                PanelShadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
-                PanelShadow.ImageTransparency = 0.5
-                PanelShadow.ScaleType = Enum.ScaleType.Slice
-                PanelShadow.SliceCenter = Rect.new(23, 23, 277, 277)
-                PanelShadow.Parent = ColorPickerPanel
-                
-                -- Color Grid
-                local ColorGrid = Instance.new("Frame")
-                ColorGrid.Size = UDim2.new(1, -20, 0, 130)
-                ColorGrid.Position = UDim2.new(0, 10, 0, 10)
-                ColorGrid.BackgroundTransparency = 1
-                ColorGrid.Parent = ColorPickerPanel
-                
-                local GridLayout = Instance.new("UIGridLayout")
-                GridLayout.CellSize = UDim2.new(0, 30, 0, 30)
-                GridLayout.CellPadding = UDim2.new(0, 5, 0, 5)
-                GridLayout.Parent = ColorGrid
-                
-                local colorPalette = {
-                    Color3.fromRGB(255, 0, 0), Color3.fromRGB(255, 127, 0), Color3.fromRGB(255, 255, 0),
-                    Color3.fromRGB(127, 255, 0), Color3.fromRGB(0, 255, 0), Color3.fromRGB(0, 255, 127),
-                    Color3.fromRGB(0, 255, 255), Color3.fromRGB(0, 127, 255), Color3.fromRGB(0, 0, 255),
-                    Color3.fromRGB(127, 0, 255), Color3.fromRGB(255, 0, 255), Color3.fromRGB(255, 0, 127),
-                    Color3.fromRGB(255, 255, 255), Color3.fromRGB(200, 200, 200), Color3.fromRGB(150, 150, 150),
-                    Color3.fromRGB(100, 100, 100), Color3.fromRGB(50, 50, 50), Color3.fromRGB(0, 0, 0)
-                }
-                
-                for _, color in ipairs(colorPalette) do
-                    local ColorBox = Instance.new("TextButton")
-                    ColorBox.Size = UDim2.new(0, 30, 0, 30)
-                    ColorBox.BackgroundColor3 = color
-                    ColorBox.Text = ""
-                    ColorBox.BorderSizePixel = 0
-                    ColorBox.AutoButtonColor = false
-                    ColorBox.Parent = ColorGrid
-                    
-                    local BoxCorner = Instance.new("UICorner")
-                    BoxCorner.CornerRadius = UDim.new(0, 6)
-                    BoxCorner.Parent = ColorBox
-                    
-                    local BoxStroke = Instance.new("UIStroke")
-                    BoxStroke.Color = Color3.fromRGB(255, 255, 255)
-                    BoxStroke.Thickness = 1
-                    BoxStroke.Transparency = 0.8
-                    BoxStroke.Parent = ColorBox
-                    
-                    ColorBox.MouseButton1Click:Connect(function()
-                        CurrentColor = color
-                        ColorDisplay.BackgroundColor3 = CurrentColor
-                        ColorPickerOpen = false
-                        ColorPickerPanel.Visible = false
-                        pcall(function()
-                            Callback(CurrentColor)
-                        end)
-                    end)
-                    
-                    ColorBox.MouseEnter:Connect(function()
-                        Tween(ColorBox, {Size = UDim2.new(0, 33, 0, 33)}, 0.15)
-                        BoxStroke.Transparency = 0
-                    end)
-                    
-                    ColorBox.MouseLeave:Connect(function()
-                        Tween(ColorBox, {Size = UDim2.new(0, 30, 0, 30)}, 0.15)
-                        BoxStroke.Transparency = 0.8
-                    end)
-                end
-                
-                -- Close button for color picker
-                local CloseColorPicker = Instance.new("TextButton")
-                CloseColorPicker.Size = UDim2.new(1, -20, 0, 30)
-                CloseColorPicker.Position = UDim2.new(0, 10, 1, -40)
-                CloseColorPicker.BackgroundColor3 = Theme.Accent
-                CloseColorPicker.Text = "Close"
-                CloseColorPicker.TextColor3 = Theme.Text
-                CloseColorPicker.TextSize = 13
-                CloseColorPicker.Font = Enum.Font.GothamMedium
-                CloseColorPicker.BorderSizePixel = 0
-                CloseColorPicker.AutoButtonColor = false
-                CloseColorPicker.Parent = ColorPickerPanel
-                
-                local ClosePickerCorner = Instance.new("UICorner")
-                ClosePickerCorner.CornerRadius = UDim.new(0, 8)
-                ClosePickerCorner.Parent = CloseColorPicker
-                
-                CloseColorPicker.MouseButton1Click:Connect(function()
-                    ColorPickerOpen = false
-                    ColorPickerPanel.Visible = false
-                end)
-                
-                ColorButton.MouseButton1Click:Connect(function()
-                    ColorPickerOpen = not ColorPickerOpen
-                    ColorPickerPanel.Visible = ColorPickerOpen
-                end)
-                
-                local ColorPicker = {}
-                function ColorPicker:SetColor(color)
-                    CurrentColor = color
-                    ColorDisplay.BackgroundColor3 = CurrentColor
-                end
-                
-                return ColorPicker
-            end
-            
             function Section:AddTextBox(options)
                 options = options or {}
                 local TextBoxName = options.Name or "TextBox"
@@ -1348,14 +1176,15 @@ function ModernUI.CreateWindow(options)
     UserInputService.InputChanged:Connect(function(input)
         if resizing and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
             local delta = input.Position - resizeStart
-            local newWidth = math.max(600, startSize.X + delta.X)
-            local newHeight = math.max(400, startSize.Y + delta.Y)
+            local newWidth = math.clamp(startSize.X + delta.X, 600, 1400)
+            local newHeight = math.clamp(startSize.Y + delta.Y, 400, 900)
             
             WindowSize.Width = newWidth
             WindowSize.Height = newHeight
             
             MainFrame.Size = UDim2.new(0, newWidth, 0, newHeight)
             MainFrame.Position = UDim2.new(0.5, -newWidth/2, 0.5, -newHeight/2)
+            ResizeHandle.Position = UDim2.new(1, -20, 1, -20)
         end
     end)
     
