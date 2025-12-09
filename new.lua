@@ -445,6 +445,10 @@ function ModernUI.CreateWindow(options)
         LeftLayout.Padding = UDim.new(0, 10)
         LeftLayout.Parent = LeftSection
         
+        local LeftPadding = Instance.new("UIPadding")
+        LeftPadding.PaddingBottom = UDim.new(0, 20)
+        LeftPadding.Parent = LeftSection
+        
         -- Right Section
         local RightSection = Instance.new("ScrollingFrame")
         RightSection.Name = "RightSection"
@@ -462,6 +466,10 @@ function ModernUI.CreateWindow(options)
         RightLayout.SortOrder = Enum.SortOrder.LayoutOrder
         RightLayout.Padding = UDim.new(0, 10)
         RightLayout.Parent = RightSection
+        
+        local RightPadding = Instance.new("UIPadding")
+        RightPadding.PaddingBottom = UDim.new(0, 20)
+        RightPadding.Parent = RightSection
         
         TabButton.MouseButton1Click:Connect(function()
             for _, tab in pairs(Tabs) do
@@ -713,8 +721,8 @@ function ModernUI.CreateWindow(options)
                 SliderValue.Parent = SliderFrame
                 
                 local SliderBackground = Instance.new("Frame")
-                SliderBackground.Size = UDim2.new(1, -20, 0, 6)
-                SliderBackground.Position = UDim2.new(0, 10, 1, -15)
+                SliderBackground.Size = UDim2.new(1, -20, 0, 8)
+                SliderBackground.Position = UDim2.new(0, 10, 1, -18)
                 SliderBackground.BackgroundColor3 = Theme.Border
                 SliderBackground.BorderSizePixel = 0
                 SliderBackground.Parent = SliderFrame
@@ -734,8 +742,8 @@ function ModernUI.CreateWindow(options)
                 SliderFillCorner.Parent = SliderFill
                 
                 local SliderCircle = Instance.new("Frame")
-                SliderCircle.Size = UDim2.new(0, 16, 0, 16)
-                SliderCircle.Position = UDim2.new((Default - Min) / (Max - Min), -8, 0.5, -8)
+                SliderCircle.Size = UDim2.new(0, 18, 0, 18)
+                SliderCircle.Position = UDim2.new((Default - Min) / (Max - Min), -9, 0.5, -9)
                 SliderCircle.BackgroundColor3 = Theme.Text
                 SliderCircle.BorderSizePixel = 0
                 SliderCircle.ZIndex = 2
@@ -747,8 +755,8 @@ function ModernUI.CreateWindow(options)
                 
                 local CircleShadow = Instance.new("UIStroke")
                 CircleShadow.Color = Color3.fromRGB(0, 0, 0)
-                CircleShadow.Thickness = 2
-                CircleShadow.Transparency = 0.6
+                CircleShadow.Thickness = 3
+                CircleShadow.Transparency = 0.5
                 CircleShadow.Parent = SliderCircle
                 
                 local Dragging = false
@@ -761,26 +769,43 @@ function ModernUI.CreateWindow(options)
                     
                     CurrentValue = value
                     SliderValue.Text = tostring(value)
-                    Tween(SliderFill, {Size = UDim2.new(pos, 0, 1, 0)}, 0.1, Enum.EasingStyle.Linear)
-                    Tween(SliderCircle, {Position = UDim2.new(pos, -8, 0.5, -8)}, 0.1, Enum.EasingStyle.Linear)
+                    
+                    SliderFill.Size = UDim2.new(pos, 0, 1, 0)
+                    SliderCircle.Position = UDim2.new(pos, -9, 0.5, -9)
                     
                     pcall(function()
                         Callback(value)
                     end)
                 end
                 
+                local function OnDragStart()
+                    Dragging = true
+                    Tween(SliderCircle, {
+                        Size = UDim2.new(0, 24, 0, 24),
+                        BackgroundColor3 = Theme.Accent
+                    }, 0.15)
+                    Tween(CircleShadow, {Transparency = 0.3}, 0.15)
+                end
+                
+                local function OnDragEnd()
+                    Dragging = false
+                    Tween(SliderCircle, {
+                        Size = UDim2.new(0, 18, 0, 18),
+                        BackgroundColor3 = Theme.Text
+                    }, 0.15)
+                    Tween(CircleShadow, {Transparency = 0.5}, 0.15)
+                end
+                
                 SliderBackground.InputBegan:Connect(function(input)
                     if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-                        Dragging = true
+                        OnDragStart()
                         UpdateSlider(input)
-                        Tween(SliderCircle, {Size = UDim2.new(0, 20, 0, 20)}, 0.1)
                     end
                 end)
                 
                 SliderBackground.InputEnded:Connect(function(input)
                     if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-                        Dragging = false
-                        Tween(SliderCircle, {Size = UDim2.new(0, 16, 0, 16)}, 0.1)
+                        OnDragEnd()
                     end
                 end)
                 
@@ -790,17 +815,23 @@ function ModernUI.CreateWindow(options)
                     end
                 end)
                 
+                UserInputService.InputEnded:Connect(function(input)
+                    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                        if Dragging then
+                            OnDragEnd()
+                        end
+                    end
+                end)
+                
                 SliderCircle.InputBegan:Connect(function(input)
                     if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-                        Dragging = true
-                        Tween(SliderCircle, {Size = UDim2.new(0, 20, 0, 20)}, 0.1)
+                        OnDragStart()
                     end
                 end)
                 
                 SliderCircle.InputEnded:Connect(function(input)
                     if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-                        Dragging = false
-                        Tween(SliderCircle, {Size = UDim2.new(0, 16, 0, 16)}, 0.1)
+                        OnDragEnd()
                     end
                 end)
                 
@@ -810,7 +841,7 @@ function ModernUI.CreateWindow(options)
                     SliderValue.Text = tostring(CurrentValue)
                     local pos = (CurrentValue - Min) / (Max - Min)
                     Tween(SliderFill, {Size = UDim2.new(pos, 0, 1, 0)}, 0.2)
-                    Tween(SliderCircle, {Position = UDim2.new(pos, -8, 0.5, -8)}, 0.2)
+                    Tween(SliderCircle, {Position = UDim2.new(pos, -9, 0.5, -9)}, 0.2)
                 end
                 
                 return Slider
