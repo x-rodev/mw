@@ -446,7 +446,7 @@ function ModernUI.CreateWindow(options)
         LeftLayout.Parent = LeftSection
         
         local LeftPadding = Instance.new("UIPadding")
-        LeftPadding.PaddingBottom = UDim.new(0, 20)
+        LeftPadding.PaddingBottom = UDim.new(0, 100)
         LeftPadding.Parent = LeftSection
         
         -- Right Section
@@ -468,7 +468,7 @@ function ModernUI.CreateWindow(options)
         RightLayout.Parent = RightSection
         
         local RightPadding = Instance.new("UIPadding")
-        RightPadding.PaddingBottom = UDim.new(0, 20)
+        RightPadding.PaddingBottom = UDim.new(0, 100)
         RightPadding.Parent = RightSection
         
         TabButton.MouseButton1Click:Connect(function()
@@ -763,7 +763,11 @@ function ModernUI.CreateWindow(options)
                 local CurrentValue = Default
                 
                 local function UpdateSlider(input)
-                    local pos = math.clamp((input.Position.X - SliderBackground.AbsolutePosition.X) / SliderBackground.AbsoluteSize.X, 0, 1)
+                    local mouseX = input.Position.X
+                    local sliderX = SliderBackground.AbsolutePosition.X
+                    local sliderWidth = SliderBackground.AbsoluteSize.X
+                    
+                    local pos = math.clamp((mouseX - sliderX) / sliderWidth, 0, 1)
                     local value = math.floor((Min + (Max - Min) * pos) / Increment + 0.5) * Increment
                     value = math.clamp(value, Min, Max)
                     
@@ -1202,9 +1206,11 @@ function ModernUI.CreateWindow(options)
             WindowSize.Width = newWidth
             WindowSize.Height = newHeight
             
-            MainFrame.Size = UDim2.new(0, newWidth, 0, newHeight)
-            MainFrame.Position = UDim2.new(0.5, -newWidth/2, 0.5, -newHeight/2)
-            ResizeHandle.Position = UDim2.new(1, -20, 1, -20)
+            -- Smooth resize with quick tween
+            Tween(MainFrame, {
+                Size = UDim2.new(0, newWidth, 0, newHeight),
+                Position = UDim2.new(0.5, -newWidth/2, 0.5, -newHeight/2)
+            }, 0.05, Enum.EasingStyle.Linear)
         end
     end)
     
